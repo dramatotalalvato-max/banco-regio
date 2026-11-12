@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Regío RP - El Respaldo de Monterrey | Banca & Créditos</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        regio: {
+                            950: '#060d1a',
+                            900: '#0a1428',
+                            850: '#0d1a33',
+                            800: '#10203d',
+                            700: '#172e57',
+                            600: '#1e3f78',
+                            blue: '#2563eb',
+                            sky: '#38bdf8',
+                            gold: '#e2b13c',
+                            goldLight: '#f3cf72',
+                            silver: '#cbd5e1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #060d1a;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.14), transparent 35%),
+                radial-gradient(circle at 85% 15%, rgba(226, 177, 60, 0.09), transparent 35%),
+                radial-gradient(circle at 50% 90%, rgba(56, 189, 248, 0.07), transparent 40%);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(16, 32, 61, 0.82), rgba(10, 20, 40, 0.9));
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(203, 213, 225, 0.12);
+            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.55);
+        }
+
+        .glass-gold-border {
+            border: 1px solid rgba(226, 177, 60, 0.35);
+            box-shadow: 0 0 35px -10px rgba(226, 177, 60, 0.22);
+        }
+
+        /* Sliders personalizados */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #172e57, #2563eb);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #f3cf72, #e2b13c);
+            border: 3px solid #060d1a;
+            box-shadow: 0 0 14px rgba(226, 177, 60, 0.75);
+            margin-top: -8px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 20px rgba(243, 207, 114, 0.95);
+        }
+
+        /* Scrollbar institucional */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060d1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #172e57;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e2b13c;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-entry {
+            animation: fadeSlideUp 0.25s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-regio-gold selection:text-regio-950 min-h-screen flex flex-col">
+
+    <!-- Contenedor de Notificaciones Toast -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- ===================================================================== -->
+    <!-- BARRA DE NAVEGACIÓN INSTITUCIONAL                                     -->
+    <!-- ===================================================================== -->
+    <nav class="sticky top-0 z-40 bg-regio-950/90 backdrop-blur-xl border-b border-regio-silver/15">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between py-3 gap-3">
+                <!-- Marca y Emblema Circular Banco Regío -->
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="switchTab('client')">
+                    <div class="w-12 h-12 rounded-full p-0.5 bg-gradient-to-b from-slate-200 via-slate-400 to-slate-600 shadow-lg shadow-regio-blue/25 shrink-0 transition-transform group-hover:scale-105">
+                        <div class="w-full h-full rounded-full bg-regio-900 flex items-center justify-center overflow-hidden relative">
+                            <!-- Emblema SVG Cerro de la Silla + Sol Dorado -->
+                            <svg viewBox="0 0 100 100" class="w-11 h-11" aria-label="Emblema Banco Regío">
+                                <defs>
+                                    <radialGradient id="navSunGrad" cx="50%" cy="45%" r="50%">
+                                        <stop offset="0%" stop-color="#fde68a"/>
+                                        <stop offset="65%" stop-color="#e2b13c"/>
+                                        <stop offset="100%" stop-color="#b45309"/>
+                                    </radialGradient>
+                                    <linearGradient id="navMtnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#38bdf8"/>
+                                        <stop offset="55%" stop-color="#2563eb"/>
+                                        <stop offset="100%" stop-color="#0a1428"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="50" cy="50" r="47" fill="#0a1428" stroke="#cbd5e1" stroke-width="2.5"/>
+                                <circle cx="50" cy="40" r="19" fill="url(#navSunGrad)"/>
+                                <!-- Silueta Cerro de la Silla -->
+                                <path d="M12 67 L33 34 L43 47 L53 28 L66 45 L75 37 L88 67 Z" fill="url(#navMtnGrad)" stroke="#e2e8f0" stroke-width="1.8" stroke-linejoin="round"/>
+                                <path d="M33 34 L38 49 L43 47 M53 28 L57 48 L66 45" fill="none" stroke="#93c5fd" stroke-width="1.2" opacity="0.8"/>
+                                <rect x="14" y="66" width="72" height="16" rx="3" fill="#060d1a" opacity="0.92"/>
+                                <text x="50" y="75.5" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="800" font-size="8.5" letter-spacing="0.6">BANCO REGÍO</text>
+                                <text x="50" y="81" text-anchor="middle" fill="#e2b13c" font-family="Inter, sans-serif" font-weight="700" font-size="4.3" letter-spacing="0.8">RP EST. 2024</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white">BANCO <span class="text-regio-sky">REGÍO</span></span>
+                            <span class="hidden md:inline-block px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest rounded bg-regio-gold/15 text-regio-gold border border-regio-gold/30">MXN</span>
+                        </div>
+                        <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-semibold">El Respaldo de Monterrey • RP Est. 2024</span>
+                    </div>
+                </div>
+
+                <!-- Botones de Navegación -->
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2.5">
+                    <button id="nav-client-btn" onclick="switchTab('client')" class="px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-regio-blue text-white shadow-md shadow-regio-blue/30 flex items-center gap-1.5">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        <span>Solicitar Crédito</span>
+                    </button>
+
+                    <button id="nav-banker-btn" onclick="switchTab('banker')" class="px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold transition-all bg-regio-800/90 text-slate-300 hover:text-white border border-slate-700 hover:border-regio-sky/50 flex items-center gap-1.5 relative">
+                        <i class="fa-solid fa-briefcase text-regio-sky"></i>
+                        <span>Cartera</span>
+                        <span id="pending-badge" class="hidden bg-emerald-500 text-regio-950 text-[10px] font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+                    </button>
+
+                    <button id="nav-accepted-btn" onclick="requestVaultAccess('accepted')" class="px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold transition-all bg-regio-800/90 text-regio-gold hover:text-regio-goldLight border border-regio-gold/35 hover:border-regio-gold/70 flex items-center gap-1.5">
+                        <i class="fa-solid fa-vault"></i>
+                        <span>Créditos Aceptados</span>
+                        <span id="accepted-badge" class="bg-regio-gold/20 text-regio-gold border border-regio-gold/40 text-[10px] font-extrabold px-1.5 py-0.2 rounded-full">0</span>
+                    </button>
+
+                    <button id="nav-admin-btn" onclick="requestVaultAccess('admin')" class="px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold transition-all bg-regio-800/90 text-slate-300 hover:text-white border border-red-500/30 hover:border-red-500/60 flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-red-400"></i>
+                        <span>Auditoría</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===================================================================== -->
+    <!-- VISTA 1: PORTAL PÚBLICO DEL CLIENTE (SIMULADOR + SOLICITUD + POLÍTICAS)-->
+    <!-- ===================================================================== -->
+    <main id="view-client" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 flex-1">
+
+        <!-- Hero Institucional con Emblema Central -->
+        <header class="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden border border-regio-sky/20">
+            <div class="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-regio-blue/10 blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-16 -bottom-16 w-72 h-72 rounded-full bg-regio-gold/10 blur-3xl pointer-events-none"></div>
+
+            <div class="flex flex-col lg:flex-row items-center gap-8 relative z-10">
+                <!-- Emblema Circular Grande -->
+                <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1 bg-gradient-to-b from-slate-100 via-slate-300 to-slate-600 shadow-2xl shadow-regio-blue/30 shrink-0">
+                    <div class="w-full h-full rounded-full bg-regio-900 flex items-center justify-center overflow-hidden">
+                        <svg viewBox="0 0 200 200" class="w-full h-full" aria-label="Logo Oficial Banco Regío">
+                            <defs>
+                                <radialGradient id="heroSun" cx="50%" cy="42%" r="48%">
+                                    <stop offset="0%" stop-color="#fef08a"/>
+                                    <stop offset="60%" stop-color="#e2b13c"/>
+                                    <stop offset="100%" stop-color="#92400e"/>
+                                </radialGradient>
+                                <linearGradient id="heroSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#0f254a"/>
+                                    <stop offset="100%" stop-color="#060d1a"/>
+                                </linearGradient>
+                                <linearGradient id="heroMountain" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#38bdf8"/>
+                                    <stop offset="45%" stop-color="#1d4ed8"/>
+                                    <stop offset="100%" stop-color="#0a1428"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="96" fill="url(#heroSky)" stroke="#cbd5e1" stroke-width="3.5"/>
+                            <circle cx="100" cy="100" r="90" fill="none" stroke="#38bdf8" stroke-width="0.8" opacity="0.35"/>
+                            <!-- Sol Regio Dorado -->
+                            <circle cx="100" cy="76" r="36" fill="url(#heroSun)"/>
+                            <!-- Montañas de Monterrey / Cerro de la Silla -->
+                            <path d="M22 122 L64 62 L84 88 L106 48 L132 84 L150 68 L178 122 Z" fill="url(#heroMountain)" stroke="#f8fafc" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M64 62 L73 92 L84 88 M106 48 L114 90 L132 84 M150 68 L156 94" fill="none" stroke="#bae6fd" stroke-width="1.8" opacity="0.85"/>
+                            <!-- Franja Tipográfica Institucional -->
+                            <rect x="20" y="114" width="160" height="54" rx="8" fill="#060d1a" fill-opacity="0.88"/>
+                            <text x="100" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-weight="800" font-size="18.5" letter-spacing="0.5">
+                                <tspan fill="#ffffff">BANCO </tspan><tspan fill="#38bdf8">REGÍO</tspan>
+                            </text>
+                            <text x="100" y="147" text-anchor="middle" fill="#e2e8f0" font-family="Inter, sans-serif" font-weight="700" font-size="6.8" letter-spacing="1.4">EL RESPALDO DE MONTERREY</text>
+                            <line x1="48" y1="152" x2="92" y2="152" stroke="#cbd5e1" stroke-width="0.9" opacity="0.7"/>
+                            <polygon points="100,149.5 101.2,152 103.8,152 101.7,153.5 102.5,156 100,154.5 97.5,156 98.3,153.5 96.2,152 98.8,152" fill="#e2b13c"/>
+                            <line x1="108" y1="152" x2="152" y2="152" stroke="#cbd5e1" stroke-width="0.9" opacity="0.7"/>
+                            <text x="100" y="162" text-anchor="middle" fill="#e2b13c" font-family="Inter, sans-serif" font-weight="700" font-size="6.4" letter-spacing="1.1">FUNDADO EN 2024 • RP EST. 2024</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Texto de Bienvenida -->
+                <div class="text-center lg:text-left space-y-3 flex-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-regio-blue/15 border border-regio-sky/30 text-regio-sky text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Líneas de Crédito Activas hasta $2,000,000 MXN
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        Solidez financiera con <span class="text-transparent bg-clip-text bg-gradient-to-r from-regio-sky via-blue-300 to-regio-gold">el respaldo de Monterrey</span>.
+                    </h1>
+                    <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+                        Financiamiento ágil en Pesos Mexicanos (MXN) para emprendedores, facciones, flotillas vehiculares y proyectos inmobiliarios dentro de la ciudad. Simula tu crédito y obtén respuesta inmediata.
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Grid Principal: Simulador + Formulario de Solicitud -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- COLUMNA IZQUIERDA: SIMULADOR INTERACTIVO (7 cols) -->
+            <div class="lg:col-span-7 glass-card rounded-2xl p-6 sm:p-8 space-y-7">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
+                            <i class="fa-solid fa-calculator text-regio-sky"></i>
+                            Simulador de Crédito Regío
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Calcula cuotas semanales, intereses y tabla de amortización en MXN.</p>
+                    </div>
+                    <span id="tier-badge" class="px-3 py-1 rounded-lg text-xs font-bold bg-regio-blue/20 text-regio-sky border border-regio-sky/30">
+                        Crédito Personal Express
+                    </span>
+                </div>
+
+                <!-- Control Monto MXN -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-end gap-2">
+                        <label for="loan-amount" class="text-sm font-medium text-slate-300">Monto a Solicitar</label>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono">
+                            $<span id="display-amount">150,000</span> <span class="text-xs sm:text-sm font-sans font-bold text-regio-gold">MXN</span>
+                        </div>
+                    </div>
+                    <input type="range" id="loan-amount" min="10000" max="2000000" step="10000" value="150000" class="w-full">
+                    <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                        <span>$10,000</span>
+                        <span>$500,000</span>
+                        <span>$1,000,000</span>
+                        <span>$2,000,000 MXN</span>
+                    </div>
+                </div>
+
+                <!-- Control Plazo en Semanas -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-end gap-2">
+                        <label for="loan-weeks" class="text-sm font-medium text-slate-300">Plazo de Amortización</label>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-regio-sky font-mono">
+                            <span id="display-weeks">4</span> <span class="text-sm sm:text-base font-sans font-semibold text-slate-400">semanas</span>
+                        </div>
+                    </div>
+                    <input type="range" id="loan-weeks" min="1" max="12" step="1" value="4" class="w-full">
+                    <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                        <span>1 sem</span>
+                        <span>4 sem</span>
+                        <span>8 sem</span>
+                        <span>12 sem</span>
+                    </div>
+                </div>
+
+                <!-- Panel de Resultados Financieros -->
+                <div class="bg-regio-950/85 rounded-2xl p-5 border border-slate-800 space-y-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="p-3 rounded-xl bg-regio-900/90 border border-slate-800">
+                            <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Tasa Global</span>
+                            <span id="calc-rate" class="text-lg font-bold text-regio-gold font-mono mt-1 block">7.0%</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-regio-900/90 border border-slate-800">
+                            <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Cuota Semanal</span>
+                            <span id="calc-weekly" class="text-base sm:text-lg font-bold text-emerald-400 font-mono mt-1 block">$40,125</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-regio-900/90 border border-slate-800">
+                            <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Interés Total</span>
+                            <span id="calc-interest" class="text-base sm:text-lg font-bold text-slate-200 font-mono mt-1 block">$10,500</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-regio-900/90 border border-slate-800">
+                            <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Total a Pagar</span>
+                            <span id="calc-total" class="text-base sm:text-lg font-bold text-white font-mono mt-1 block">$160,500</span>
+                        </div>
+                    </div>
+
+                    <!-- Nivel de Garantía Requerido -->
+                    <div class="flex items-start gap-2.5 text-xs text-slate-300 bg-regio-850/70 p-3 rounded-xl border border-regio-sky/20">
+                        <i class="fa-solid fa-shield-halved text-regio-gold mt-0.5 text-sm"></i>
+                        <p id="collateral-hint">Garantía Personal Express: Identificación oficial IC y comprobante de empleo o actividad económica.</p>
+                    </div>
+
+                    <!-- Botones de Acción del Simulador -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-1">
+                        <button type="button" onclick="openAmortizationModal()" class="flex-1 py-2.5 px-4 rounded-xl bg-regio-800 hover:bg-regio-700 text-regio-sky border border-regio-sky/30 text-xs font-bold transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-table-list"></i>
+                            Ver Tabla de Amortización
+                        </button>
+                        <button type="button" onclick="focusApplicationForm()" class="flex-1 py-2.5 px-4 rounded-xl bg-regio-blue hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-regio-blue/25 transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-arrow-down"></i>
+                            Solicitar este Crédito
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: FORMULARIO DE SOLICITUD IC / OOC (5 cols) -->
+            <div id="application-card" class="lg:col-span-5 glass-card rounded-2xl p-6 sm:p-8 border-t-4 border-t-regio-gold">
+                <div class="mb-5">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-file-signature text-regio-gold"></i>
+                        Solicitud de Crédito Oficial
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Ingresa los datos de tu personaje (IC) y contacto OOC para evaluación.</p>
+                </div>
+
+                <form id="loan-application-form" class="space-y-4">
+                    <div>
+                        <label for="ic-name" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Nombre Completo del Personaje (IC) *</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user-tie absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                            <input type="text" id="ic-name" required maxlength="60" placeholder="Ej. Alejandro Garza" class="w-full bg-regio-950 border border-slate-700 focus:border-regio-sky rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                            <label for="ic-id" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">ID / Pasaporte (IC) *</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-id-card absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                                <input type="text" id="ic-id" required maxlength="25" placeholder="Ej. #1048" class="w-full bg-regio-950 border border-slate-700 focus:border-regio-sky rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="ic-occupation" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Ocupación / Facción *</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-briefcase absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                                <input type="text" id="ic-occupation" required maxlength="50" placeholder="Ej. Taller / EMS / Empresario" class="w-full bg-regio-950 border border-slate-700 focus:border-regio-sky rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="discord-tag" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Usuario de Discord (OOC) *</label>
+                        <div class="relative">
+                            <i class="fa-brands fa-discord absolute left-3.5 top-3 text-indigo-400 text-xs"></i>
+                            <input type="text" id="discord-tag" required maxlength="40" placeholder="Ej. garza_mty" class="w-full bg-regio-950 border border-slate-700 focus:border-regio-sky rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="ic-collateral" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Aval o Garantía (Vehículo / Propiedad) *</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-car-side absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                            <input type="text" id="ic-collateral" required maxlength="100" placeholder="Ej. Factura Ford Raptor (Placas: NLE-901)" class="w-full bg-regio-950 border border-slate-700 focus:border-regio-sky rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="ic-reason" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Motivo / Destino del Capital *</label>
+                        <textarea id="ic-reason" rows="2" required maxlength="220" placeholder="Ej. Apertura de sucursal comercial o compra de flotilla..." class="w-full bg-regio-950 border border-slate-700 focus:border-regio-sky rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none"></textarea>
+                    </div>
+
+                    <!-- Resumen Sincronizado -->
+                    <div class="p-3.5 rounded-xl bg-regio-900 border border-regio-gold/30 flex items-center justify-between text-xs">
+                        <span class="text-slate-300">Plan seleccionado:</span>
+                        <span class="font-bold text-regio-gold font-mono"><span id="form-summary-amount">$150,000 MXN</span> • <span id="form-summary-weeks">4</span> sem</span>
+                    </div>
+
+                    <button type="submit" id="submit-loan-btn" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-regio-gold to-amber-500 hover:from-regio-goldLight hover:to-regio-gold text-regio-950 font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-regio-gold/25 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Enviar Solicitud a Banco Regío
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Políticas y Requisitos -->
+        <section class="pt-6 border-t border-slate-800/80 space-y-6">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-white">Normativa Crediticia Banco Regío</h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">Transparencia total en tasas, garantías y cumplimiento dentro del servidor.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-regio-blue/20 border border-regio-sky/30 flex items-center justify-center text-regio-sky">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">Requisitos y Garantías</h3>
+                    <ul class="space-y-2 text-xs text-slate-300 leading-relaxed">
+                        <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>Hasta <strong>$300,000 MXN</strong>: Garantía personal y empleo/facción comprobable.</li>
+                        <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>De <strong>$310,000 a $1,000,000 MXN</strong>: Factura vehicular endosable como respaldo.</li>
+                        <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>De <strong>$1,010,000 a $2,000,000 MXN</strong>: Escritura de propiedad o activo empresarial.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-regio-gold/15 border border-regio-gold/30 flex items-center justify-center text-regio-gold">
+                        <i class="fa-solid fa-percent"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">Tasas Preferenciales MXN</h3>
+                    <ul class="space-y-2 text-xs text-slate-300 leading-relaxed">
+                        <li><i class="fa-solid fa-chart-line text-regio-gold mr-1.5"></i>Plazos flexibles de <strong>1 a 12 semanas</strong> con cuotas fijas semanales.</li>
+                        <li><i class="fa-solid fa-chart-line text-regio-gold mr-1.5"></i>Tasa global transparente calculada antes de firmar contrato.</li>
+                        <li><i class="fa-solid fa-chart-line text-regio-gold mr-1.5"></i>Posibilidad de liquidación anticipada sin penalizaciones ocultas.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-red-500/15 border border-red-500/30 flex items-center justify-center text-red-400">
+                        <i class="fa-solid fa-gavel"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">Morosidad y Ejecución</h3>
+                    <ul class="space-y-2 text-xs text-slate-300 leading-relaxed">
+                        <li><i class="fa-solid fa-triangle-exclamation text-red-400 mr-1.5"></i>Cada semana de retraso genera un recargo del <strong>+5%</strong> sobre el saldo pendiente.</li>
+                        <li><i class="fa-solid fa-triangle-exclamation text-red-400 mr-1.5"></i>Al acumular 2 cuotas vencidas, el banco procede al embargo legal del aval.</li>
+                        <li><i class="fa-solid fa-triangle-exclamation text-red-400 mr-1.5"></i>El incumplimiento se reporta al Buró Financiero Estatal del servidor.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- VISTA 2: CARTERA DE BANQUEROS (#view-banker)                          -->
+    <!-- ===================================================================== -->
+    <main id="view-banker" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8 flex-1">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+            <div>
+                <span class="px-2.5 py-0.5 rounded bg-regio-blue/20 text-regio-sky border border-regio-sky/30 text-[11px] font-bold uppercase tracking-wider">Ejecutivos de Cuenta</span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-1.5">Cartera de Préstamos y Cobranza</h1>
+                <p class="text-xs text-slate-400 mt-0.5">Gestiona solicitudes entrantes, registra pagos semanales, aplica mora y genera recibos Discord.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+                <button onclick="seedDemoData()" class="px-3.5 py-2 rounded-xl bg-regio-800 hover:bg-regio-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-database text-regio-gold"></i>
+                    Cargar Ejemplos RP
+                </button>
+                <button onclick="switchTab('client')" class="px-4 py-2 rounded-xl bg-regio-blue hover:bg-blue-500 text-white text-xs font-bold transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i>
+                    Nueva Solicitud
+                </button>
+            </div>
+        </div>
+
+        <!-- KPIs Cartera -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-regio-sky">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cartera Activa Colocada</span>
+                <div id="kpi-lent" class="text-xl sm:text-2xl font-extrabold text-white font-mono mt-1">$0 MXN</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">Capital activo en circulación</span>
+            </div>
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-emerald-500">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Saldo Pendiente por Cobrar</span>
+                <div id="kpi-receivable" class="text-xl sm:text-2xl font-extrabold text-emerald-400 font-mono mt-1">$0 MXN</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">Capital + intereses restantes</span>
+            </div>
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-amber-400">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Solicitudes Pendientes</span>
+                <div id="kpi-pending" class="text-2xl font-extrabold text-amber-400 font-mono mt-1">0</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">En espera de dictamen</span>
+            </div>
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-red-500">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Créditos en Mora</span>
+                <div id="kpi-overdue" class="text-2xl font-extrabold text-red-400 font-mono mt-1">0</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">Con atraso o recargo activo</span>
+            </div>
+        </div>
+
+        <!-- Barra de Filtros y Buscador -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-regio-900/80 p-4 rounded-2xl border border-slate-800">
+            <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                <button onclick="setFilter('all')" id="filter-all" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-regio-blue text-white">Todos</button>
+                <button onclick="setFilter('pending')" id="filter-pending" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Pendientes</button>
+                <button onclick="setFilter('active')" id="filter-active" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Activos</button>
+                <button onclick="setFilter('overdue')" id="filter-overdue" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">En Mora</button>
+                <button onclick="setFilter('paid')" id="filter-paid" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Liquidados</button>
+            </div>
+
+            <div class="relative w-full sm:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                <input type="text" id="search-loans" oninput="renderLoans()" placeholder="Buscar folio, nombre, ID, facción o Discord..." class="w-full bg-regio-950 border border-slate-700 focus:border-regio-sky rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none">
+            </div>
+        </div>
+
+        <!-- Tarjetas de Préstamos -->
+        <div id="loans-list-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- VISTA 3: BÓVEDA EXCLUSIVA DE CRÉDITOS ACEPTADOS (#view-accepted)      -->
+    <!-- Protegida por Contraseña de Administración del Banco (REGIO2026)      -->
+    <!-- ===================================================================== -->
+    <main id="view-accepted" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8 flex-1">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-regio-gold/30 pb-6">
+            <div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded bg-regio-gold/20 text-regio-gold border border-regio-gold/40 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-vault text-[10px]"></i> Bóveda de Administración del Banco
+                    </span>
+                    <span class="text-xs text-slate-400 font-mono">Sincronización Automática Activa</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-1.5">Archivo Maestro de Créditos Aceptados</h1>
+                <p class="text-xs text-slate-400 mt-0.5">Registro blindado de todos los créditos aprobados y desembolsados por Banco Regío.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="openActivityLogModal()" class="px-3 py-2 rounded-xl bg-regio-800 hover:bg-regio-700 text-regio-sky border border-regio-sky/30 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    Bitácora
+                </button>
+                <button onclick="openBackupModal()" class="px-3 py-2 rounded-xl bg-regio-800 hover:bg-regio-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-floppy-disk text-regio-gold"></i>
+                    Respaldo JSON
+                </button>
+                <button onclick="exportAcceptedCSV()" class="px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/35 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-csv"></i>
+                    CSV Aceptados
+                </button>
+                <button onclick="openChangeVaultPasswordModal()" class="px-3 py-2 rounded-xl bg-regio-gold/15 hover:bg-regio-gold/25 text-regio-gold border border-regio-gold/35 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-key"></i>
+                    Clave Bóveda
+                </button>
+                <button onclick="lockVaultSession('accepted')" class="px-3 py-2 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/40 text-xs font-bold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-lock"></i>
+                    Cerrar Bóveda
+                </button>
+            </div>
+        </div>
+
+        <!-- 5 KPIs Exclusivos de la Bóveda -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="glass-card glass-gold-border rounded-2xl p-4">
+                <span class="text-[10px] font-bold text-regio-gold uppercase tracking-wider">Créditos Aceptados</span>
+                <div id="vault-stat-count" class="text-2xl font-extrabold text-white font-mono mt-1">0</div>
+                <span class="text-[11px] text-slate-400 mt-0.5 block">Contratos aprobados</span>
+            </div>
+            <div class="glass-card rounded-2xl p-4 border border-regio-sky/25">
+                <span class="text-[10px] font-bold text-regio-sky uppercase tracking-wider">Capital Colocado</span>
+                <div id="vault-stat-principal" class="text-lg sm:text-xl font-extrabold text-white font-mono mt-1 truncate">$0</div>
+                <span class="text-[11px] text-slate-400 mt-0.5 block">Monto neto prestado</span>
+            </div>
+            <div class="glass-card rounded-2xl p-4 border border-amber-500/25">
+                <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Intereses Proyectados</span>
+                <div id="vault-stat-interest" class="text-lg sm:text-xl font-extrabold text-amber-400 font-mono mt-1 truncate">$0</div>
+                <span class="text-[11px] text-slate-400 mt-0.5 block">Rendimiento del banco</span>
+            </div>
+            <div class="glass-card rounded-2xl p-4 border border-emerald-500/25">
+                <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Saldo Recuperado</span>
+                <div id="vault-stat-collected" class="text-lg sm:text-xl font-extrabold text-emerald-400 font-mono mt-1 truncate">$0</div>
+                <span class="text-[11px] text-slate-400 mt-0.5 block">Abonos cobrados</span>
+            </div>
+            <div class="glass-card rounded-2xl p-4 border border-red-500/25">
+                <span class="text-[10px] font-bold text-red-400 uppercase tracking-wider">Pendiente por Cobrar</span>
+                <div id="vault-stat-pending" class="text-lg sm:text-xl font-extrabold text-red-400 font-mono mt-1 truncate">$0</div>
+                <span class="text-[11px] text-slate-400 mt-0.5 block">Saldo vivo en cartera</span>
+            </div>
+        </div>
+
+        <!-- Filtros de la Bóveda -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-regio-900/80 p-4 rounded-2xl border border-regio-gold/25">
+            <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                <button onclick="setAcceptedFilter('all')" id="acc-filter-all" class="acc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-regio-gold text-regio-950">Todos los Aceptados</button>
+                <button onclick="setAcceptedFilter('active')" id="acc-filter-active" class="acc-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Activos</button>
+                <button onclick="setAcceptedFilter('overdue')" id="acc-filter-overdue" class="acc-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">En Mora</button>
+                <button onclick="setAcceptedFilter('paid')" id="acc-filter-paid" class="acc-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Liquidados</button>
+            </div>
+
+            <div class="relative w-full sm:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                <input type="text" id="accepted-search-input" oninput="renderAcceptedVault()" placeholder="Buscar titular, folio, aval o Discord..." class="w-full bg-regio-950 border border-slate-700 focus:border-regio-gold rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none">
+            </div>
+        </div>
+
+        <!-- Tabla Oficial de Créditos Aceptados -->
+        <div class="glass-card rounded-2xl border border-regio-gold/25 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-regio-950/95 border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-400">
+                            <th class="py-3.5 px-4">Folio & Aprobación</th>
+                            <th class="py-3.5 px-4">Titular (IC / OOC)</th>
+                            <th class="py-3.5 px-4">Capital Otorgado</th>
+                            <th class="py-3.5 px-4">Total c/ Interés</th>
+                            <th class="py-3.5 px-4">Pagado / Pendiente</th>
+                            <th class="py-3.5 px-4">Progreso</th>
+                            <th class="py-3.5 px-4">Garantía / Aval</th>
+                            <th class="py-3.5 px-4">Estatus</th>
+                            <th class="py-3.5 px-4 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accepted-vault-tbody" class="divide-y divide-slate-800/70 text-xs"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- VISTA 4: AUDITORÍA GENERAL DE SOLICITUDES (#view-admin)               -->
+    <!-- Protegida por Contraseña de Auditoría / Staff (ADMIN2026)             -->
+    <!-- ===================================================================== -->
+    <main id="view-admin" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8 flex-1">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-red-500/25 pb-6">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/35 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-[10px]"></i> Auditoría General Staff
+                    </span>
+                    <span class="text-xs text-slate-400">Historial Completo de Solicitudes</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-1.5">Auditoría Maestra de Solicitudes</h1>
+                <p class="text-xs text-slate-400 mt-0.5">Supervisión integral de todas las solicitudes recibidas: pendientes, aprobadas, liquidadas y rechazadas.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="openActivityLogModal()" class="px-3 py-2 rounded-xl bg-regio-800 hover:bg-regio-700 text-regio-sky border border-regio-sky/30 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    Bitácora
+                </button>
+                <button onclick="openBackupModal()" class="px-3 py-2 rounded-xl bg-regio-800 hover:bg-regio-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-floppy-disk text-regio-gold"></i>
+                    Respaldo JSON
+                </button>
+                <button onclick="exportAdminCSV()" class="px-3.5 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/35 text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-csv"></i>
+                    Exportar CSV
+                </button>
+                <button onclick="lockVaultSession('admin')" class="px-3.5 py-2 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/40 text-xs font-bold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-lock"></i>
+                    Bloquear Sesión
+                </button>
+            </div>
+        </div>
+
+        <!-- KPIs Auditoría -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4">
+            <div class="glass-card rounded-xl p-4 border border-slate-800">
+                <span class="text-[10px] font-bold text-slate-400 uppercase">Total Solicitudes</span>
+                <div id="admin-stat-total" class="text-2xl font-extrabold text-white font-mono mt-1">0</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border border-amber-500/25">
+                <span class="text-[10px] font-bold text-amber-400 uppercase">Pendientes</span>
+                <div id="admin-stat-pending" class="text-2xl font-extrabold text-amber-400 font-mono mt-1">0</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border border-emerald-500/25">
+                <span class="text-[10px] font-bold text-emerald-400 uppercase">Aprobadas</span>
+                <div id="admin-stat-approved" class="text-2xl font-extrabold text-emerald-400 font-mono mt-1">0</div>
+            </div>
+            <div class="glass-card rounded-xl p-4 border border-red-500/25">
+                <span class="text-[10px] font-bold text-red-400 uppercase">Rechazadas</span>
+                <div id="admin-stat-rejected" class="text-2xl font-extrabold text-red-400 font-mono mt-1">0</div>
+            </div>
+            <div class="col-span-2 sm:col-span-1 glass-card rounded-xl p-4 border border-regio-gold/30">
+                <span class="text-[10px] font-bold text-regio-gold uppercase">Volumen Solicitado</span>
+                <div id="admin-stat-volume" class="text-lg sm:text-xl font-extrabold text-regio-gold font-mono mt-1 truncate">$0</div>
+            </div>
+        </div>
+
+        <!-- Filtros Auditoría -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-regio-900/80 p-4 rounded-2xl border border-slate-800">
+            <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                <button onclick="setAdminFilter('all')" id="admin-filter-all" class="admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-red-600 text-white">Todas</button>
+                <button onclick="setAdminFilter('pending')" id="admin-filter-pending" class="admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Pendientes</button>
+                <button onclick="setAdminFilter('active')" id="admin-filter-active" class="admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Activas</button>
+                <button onclick="setAdminFilter('overdue')" id="admin-filter-overdue" class="admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">En Mora</button>
+                <button onclick="setAdminFilter('paid')" id="admin-filter-paid" class="admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Liquidadas</button>
+                <button onclick="setAdminFilter('rejected')" id="admin-filter-rejected" class="admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white">Rechazadas</button>
+            </div>
+
+            <div class="relative w-full sm:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                <input type="text" id="admin-search-input" oninput="renderAdminRequests()" placeholder="Filtrar expediente, personaje, ID, aval..." class="w-full bg-regio-950 border border-slate-700 focus:border-red-500 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none">
+            </div>
+        </div>
+
+        <!-- Tabla Maestra -->
+        <div class="glass-card rounded-2xl border border-slate-800 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-regio-950/95 border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-400">
+                            <th class="py-3.5 px-4">Folio / Fecha</th>
+                            <th class="py-3.5 px-4">Solicitante (IC / OOC)</th>
+                            <th class="py-3.5 px-4">Ocupación / Facción</th>
+                            <th class="py-3.5 px-4">Monto & Plazo</th>
+                            <th class="py-3.5 px-4">Aval y Motivo</th>
+                            <th class="py-3.5 px-4">Estado</th>
+                            <th class="py-3.5 px-4 text-right">Control</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-requests-tbody" class="divide-y divide-slate-800/70 text-xs"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 1: AUTENTICACIÓN DE BÓVEDA / AUDITORÍA                          -->
+    <!-- ===================================================================== -->
+    <div id="vault-auth-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeVaultAuthModal()">
+        <div class="glass-card rounded-2xl max-w-md w-full p-6 sm:p-8 border border-regio-gold/40 shadow-2xl space-y-5 animate-entry">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <div id="auth-modal-icon-box" class="w-10 h-10 rounded-xl bg-regio-gold/15 border border-regio-gold/40 flex items-center justify-center text-regio-gold">
+                        <i class="fa-solid fa-vault text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 id="auth-modal-title" class="text-lg font-bold text-white">Bóveda de Créditos Aceptados</h3>
+                        <p id="auth-modal-subtitle" class="text-xs text-slate-400">Acceso exclusivo para Administración del Banco.</p>
+                    </div>
+                </div>
+                <button onclick="closeVaultAuthModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="verifyVaultPassword(event)" class="space-y-4">
+                <div>
+                    <label for="vault-password-input" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Contraseña de Acceso *</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-regio-gold text-sm"></i>
+                        <input type="password" id="vault-password-input" required placeholder="Ingresa la contraseña..." class="w-full bg-regio-950 border border-slate-700 focus:border-regio-gold rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none">
+                    </div>
+                    <p id="auth-modal-hint" class="text-[11px] text-slate-400 mt-2">
+                        Contraseña por defecto de Bóveda: <code class="text-regio-gold bg-regio-950 px-1.5 py-0.5 rounded border border-slate-800 font-mono">REGIO2026</code>
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeVaultAuthModal()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="auth-modal-submit-btn" class="px-5 py-2.5 rounded-xl bg-regio-gold hover:bg-regio-goldLight text-regio-950 text-xs font-extrabold shadow-lg shadow-regio-gold/25 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-unlock"></i>
+                        Desbloquear Acceso
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 2: CAMBIAR CONTRASEÑA DE BÓVEDA                                 -->
+    <!-- ===================================================================== -->
+    <div id="change-password-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeChangeVaultPasswordModal()">
+        <div class="glass-card rounded-2xl max-w-md w-full p-6 sm:p-8 border border-regio-gold/40 shadow-2xl space-y-5 animate-entry">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-key text-regio-gold text-lg"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Actualizar Clave de Bóveda</h3>
+                        <p class="text-xs text-slate-400">Personaliza la contraseña de Créditos Aceptados.</p>
+                    </div>
+                </div>
+                <button onclick="closeChangeVaultPasswordModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="saveNewVaultPassword(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Nueva Contraseña (mín. 4 caracteres) *</label>
+                    <input type="password" id="new-vault-pass" required minlength="4" maxlength="32" placeholder="Nueva clave secreta..." class="w-full bg-regio-950 border border-slate-700 focus:border-regio-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Confirmar Nueva Contraseña *</label>
+                    <input type="password" id="confirm-vault-pass" required minlength="4" maxlength="32" placeholder="Repite la nueva clave..." class="w-full bg-regio-950 border border-slate-700 focus:border-regio-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none">
+                </div>
+                <div class="flex justify-end gap-2.5 pt-2">
+                    <button type="button" onclick="closeChangeVaultPasswordModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-regio-gold text-regio-950 text-xs font-extrabold">Guardar Contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 3: TABLA DE AMORTIZACIÓN INTERACTIVA                            -->
+    <!-- ===================================================================== -->
+    <div id="amortization-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeAmortizationModal()">
+        <div class="glass-card rounded-2xl max-w-2xl w-full p-6 sm:p-7 border border-regio-sky/35 shadow-2xl space-y-5 animate-entry max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4 shrink-0">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table-list text-regio-sky"></i>
+                        Tabla de Amortización Semanal
+                    </h3>
+                    <p id="amortization-subtitle" class="text-xs text-slate-400 mt-0.5">Proyección de pagos en Pesos Mexicanos (MXN).</p>
+                </div>
+                <button onclick="closeAmortizationModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="overflow-y-auto flex-1 rounded-xl border border-slate-800">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-regio-950 text-[10px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                        <tr>
+                            <th class="py-3 px-4">Cuota</th>
+                            <th class="py-3 px-4">Fecha Estimada</th>
+                            <th class="py-3 px-4">Pago Semanal</th>
+                            <th class="py-3 px-4">Abono Capital</th>
+                            <th class="py-3 px-4">Interés</th>
+                            <th class="py-3 px-4 text-right">Saldo Restante</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amortization-tbody" class="divide-y divide-slate-800/70 text-xs font-mono"></tbody>
+                </table>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2 shrink-0">
+                <button onclick="copyAmortizationDiscord()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-2">
+                    <i class="fa-brands fa-discord"></i>
+                    Copiar Tabla para Discord
+                </button>
+                <button onclick="closeAmortizationModal()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 4: EXPEDIENTE DETALLADO E HISTORIAL DE ABONOS                   -->
+    <!-- ===================================================================== -->
+    <div id="loan-detail-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeLoanDetailModal()">
+        <div class="glass-card rounded-2xl max-w-2xl w-full p-6 sm:p-7 border border-regio-gold/35 shadow-2xl space-y-5 animate-entry max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4 shrink-0">
+                <div>
+                    <h3 id="detail-modal-title" class="text-lg font-bold text-white">Expediente Crediticio</h3>
+                    <p id="detail-modal-subtitle" class="text-xs text-slate-400">Historial completo y movimientos del préstamo.</p>
+                </div>
+                <button onclick="closeLoanDetailModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="loan-detail-body" class="overflow-y-auto flex-1 space-y-4 text-xs"></div>
+
+            <div class="flex justify-end gap-2.5 pt-2 border-t border-slate-800 shrink-0">
+                <button onclick="closeLoanDetailModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">Cerrar Expediente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 5: TICKETS / CONTRATOS / RECIBOS PARA DISCORD (MARKDOWN)        -->
+    <!-- ===================================================================== -->
+    <div id="discord-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeDiscordModal()">
+        <div class="glass-card rounded-2xl max-w-xl w-full p-6 sm:p-7 border border-indigo-500/40 shadow-2xl space-y-4 animate-entry">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3.5">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-lg bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+                        <i class="fa-brands fa-discord text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-white">Documento Oficial Discord</h3>
+                        <p class="text-xs text-slate-400">Listo para copiar y pegar en los canales de Banco Regío.</p>
+                    </div>
+                </div>
+                <button onclick="closeDiscordModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Pestañas de Documento Discord -->
+            <div class="grid grid-cols-3 gap-2">
+                <button id="doc-type-contract" onclick="switchDiscordDocType('contract')" class="py-2 px-2.5 rounded-lg text-[11px] font-bold bg-regio-gold text-regio-950 transition-colors">
+                    Contrato Aprobación
+                </button>
+                <button id="doc-type-receipt" onclick="switchDiscordDocType('receipt')" class="py-2 px-2.5 rounded-lg text-[11px] font-semibold bg-regio-950 text-slate-300 border border-slate-700 transition-colors">
+                    Estado de Cuenta
+                </button>
+                <button id="doc-type-payment" onclick="switchDiscordDocType('payment')" class="py-2 px-2.5 rounded-lg text-[11px] font-semibold bg-regio-950 text-slate-300 border border-slate-700 transition-colors">
+                    Recibo Último Abono
+                </button>
+            </div>
+
+            <textarea id="discord-markdown-output" rows="13" readonly class="w-full bg-regio-950 border border-slate-700 rounded-xl p-3.5 font-mono text-xs text-regio-sky focus:outline-none leading-relaxed"></textarea>
+
+            <div class="flex items-center justify-end gap-3 pt-1">
+                <button onclick="closeDiscordModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+                    Cerrar
+                </button>
+                <button onclick="copyDiscordMarkdown()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 flex items-center gap-2">
+                    <i class="fa-regular fa-copy"></i>
+                    Copiar para Discord
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 6: BITÁCORA DE MOVIMIENTOS DEL BANCO (ACTIVITY LOG)             -->
+    <!-- ===================================================================== -->
+    <div id="activity-log-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeActivityLogModal()">
+        <div class="glass-card rounded-2xl max-w-2xl w-full p-6 sm:p-7 border border-regio-sky/35 shadow-2xl space-y-4 animate-entry max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3.5 shrink-0">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-regio-sky"></i>
+                        Bitácora de Auditoría Interna
+                    </h3>
+                    <p class="text-xs text-slate-400">Registro cronológico de aprobaciones, pagos, moras y ajustes.</p>
+                </div>
+                <button onclick="closeActivityLogModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="activity-log-list" class="overflow-y-auto flex-1 space-y-2 pr-1 text-xs"></div>
+
+            <div class="flex justify-between items-center pt-2 border-t border-slate-800 shrink-0">
+                <button onclick="clearActivityLog()" class="px-3 py-2 rounded-xl bg-red-600/15 hover:bg-red-600/25 text-red-400 border border-red-500/30 text-xs font-semibold">
+                    Limpiar Bitácora
+                </button>
+                <button onclick="closeActivityLogModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 7: RESPALDO E IMPORTACIÓN DE BASE DE DATOS JSON                 -->
+    <!-- ===================================================================== -->
+    <div id="backup-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeBackupModal()">
+        <div class="glass-card rounded-2xl max-w-lg w-full p-6 sm:p-7 border border-regio-gold/35 shadow-2xl space-y-4 animate-entry">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3.5">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk text-regio-gold"></i>
+                        Respaldo Integral del Sistema (JSON)
+                    </h3>
+                    <p class="text-xs text-slate-400">Exporta o restaura toda la cartera, bóveda y bitácora del servidor.</p>
+                </div>
+                <button onclick="closeBackupModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <div class="p-4 rounded-xl bg-regio-950 border border-slate-800 space-y-2.5">
+                    <p class="font-bold text-white">1. Descargar Copia de Seguridad</p>
+                    <p class="text-slate-400">Guarda un archivo <code class="text-regio-gold">.json</code> con todas las solicitudes, créditos aceptados e historial de abonos.</p>
+                    <button onclick="downloadFullBackupJSON()" class="w-full py-2.5 px-4 rounded-xl bg-regio-gold hover:bg-regio-goldLight text-regio-950 font-extrabold transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i>
+                        Descargar Respaldo Completo (.JSON)
+                    </button>
+                </div>
+
+                <div class="p-4 rounded-xl bg-regio-950 border border-slate-800 space-y-2.5">
+                    <p class="font-bold text-white">2. Restaurar desde Archivo JSON</p>
+                    <p class="text-slate-400">Selecciona un respaldo previo para sincronizar los registros en este navegador.</p>
+                    <input type="file" id="import-json-file" accept=".json" onchange="importFullBackupJSON(event)" class="block w-full text-xs text-slate-300 file:mr-3 file:py-2 file:px-3.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-regio-blue file:text-white hover:file:bg-blue-500 cursor-pointer">
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closeBackupModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 mt-14 py-8 text-center text-xs text-slate-500">
+        <p class="font-bold text-slate-300">BANCO REGÍO — EL RESPALDO DE MONTERREY (RP EST. 2024)</p>
+        <p class="mt-1">Plataforma oficial de créditos, cartera ejecutiva y bóveda administrativa en Pesos Mexicanos (MXN).</p>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- LÓGICA COMPLETA DE LA APLICACIÓN                                      -->
+    <!-- ===================================================================== -->
+    <script>
+        // --- CLAVES DE ALMACENAMIENTO LOCAL ---
+        const STORAGE_LOANS_KEY = 'banco_regio_prestamos_v1';
+        const STORAGE_ACCEPTED_KEY = 'banco_regio_creditos_aceptados_v1';
+        const STORAGE_VAULT_PASS_KEY = 'banco_regio_vault_password_v1';
+        const STORAGE_LOGS_KEY = 'banco_regio_activity_logs_v1';
+
+        const DEFAULT_VAULT_PASS = 'REGIO2026';
+        const DEFAULT_ADMIN_PASS = 'ADMIN2026';
+
+        // --- ESTADO EN MEMORIA ---
+        let loans = [];
+        let acceptedVault = [];
+        let activityLogs = [];
+        let isAcceptedAuthenticated = false;
+        let isAdminAuthenticated = false;
+        let pendingAuthTarget = null; // 'accepted' | 'admin'
+
+        let currentFilter = 'all';
+        let acceptedFilter = 'all';
+        let adminFilter = 'all';
+
+        let selectedModalLoanId = null;
+        let selectedDocType = 'contract';
+
+        // --- UTILIDADES SEGURAS ---
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatNumber(num) {
+            return Math.round(Number(num) || 0).toLocaleString('es-MX');
+        }
+
+        function formatMoney(num) {
+            return '$' + formatNumber(num) + ' MXN';
+        }
+
+        function getNowFormatted() {
+            const now = new Date();
+            return now.toLocaleDateString('es-MX', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }) + ' ' + now.toLocaleTimeString('es-MX', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function getVaultPassword() {
+            return localStorage.getItem(STORAGE_VAULT_PASS_KEY) || DEFAULT_VAULT_PASS;
+        }
+
+        // --- BITÁCORA DE AUDITORÍA ---
+        function logActivity(action, detail, badge = 'INFO') {
+            activityLogs.unshift({
+                id: 'LOG-' + Date.now().toString().slice(-6),
+                timestamp: getNowFormatted(),
+                action,
+                detail,
+                badge
+            });
+            if (activityLogs.length > 150) activityLogs = activityLogs.slice(0, 150);
+            try {
+                localStorage.setItem(STORAGE_LOGS_KEY, JSON.stringify(activityLogs));
+            } catch (e) {
+                console.error('Error guardando bitácora:', e);
+            }
+        }
+
+        // --- PERSISTENCIA Y SINCRONIZACIÓN ---
+        function loadAllStorage() {
+            try {
+                const rawLoans = localStorage.getItem(STORAGE_LOANS_KEY);
+                const rawAccepted = localStorage.getItem(STORAGE_ACCEPTED_KEY);
+                const rawLogs = localStorage.getItem(STORAGE_LOGS_KEY);
+
+                loans = rawLoans ? JSON.parse(rawLoans) : [];
+                acceptedVault = rawAccepted ? JSON.parse(rawAccepted) : [];
+                activityLogs = rawLogs ? JSON.parse(rawLogs) : [];
+
+                if (!Array.isArray(loans)) loans = [];
+                if (!Array.isArray(acceptedVault)) acceptedVault = [];
+                if (!Array.isArray(activityLogs)) activityLogs = [];
+
+                // Migración de versiones anteriores si existen
+                const legacyKeys = ['aurelia_capital_rp_loans_mxn_v2', 'aurelia_capital_rp_loans_v1'];
+                for (const key of legacyKeys) {
+                    const legacyRaw = localStorage.getItem(key);
+                    if (legacyRaw) {
+                        const legacyItems = JSON.parse(legacyRaw);
+                        if (Array.isArray(legacyItems)) {
+                            legacyItems.forEach(item => {
+                                if (!loans.some(l => l.id === item.id)) {
+                                    loans.push(normalizeLoanObject(item));
+                                }
+                            });
+                        }
+                        localStorage.removeItem(key);
+                    }
+                }
+
+                // Normalizar todos los préstamos
+                loans = loans.map(normalizeLoanObject);
+                syncAcceptedVault(false);
+                saveAllStorage();
+            } catch (err) {
+                console.error('Error cargando almacenamiento local:', err);
+                loans = [];
+                acceptedVault = [];
+            }
+        }
+
+        function normalizeLoanObject(item) {
+            const amount = Number(item.amount) || 50000;
+            const weeks = Math.max(1, Number(item.weeks) || 4);
+            const rate = Number(item.rate) || calculateRate(amount, weeks);
+            const interest = Number(item.interest) || Math.round(amount * (rate / 100));
+            const totalPayable = Number(item.totalPayable) || (amount + interest);
+            const weeklyPayment = Number(item.weeklyPayment) || Math.ceil(totalPayable / weeks);
+            const weeksPaid = Math.min(weeks, Math.max(0, Number(item.weeksPaid) || 0));
+            const remainingBalance = item.remainingBalance !== undefined
+                ? Math.max(0, Number(item.remainingBalance))
+                : Math.max(0, totalPayable - (weeksPaid * weeklyPayment));
+
+            return {
+                id: item.id || ('REG-' + Math.floor(1000 + Math.random() * 9000)),
+                createdAt: item.createdAt || getNowFormatted(),
+                approvedAt: item.approvedAt || (['active', 'overdue', 'paid'].includes(item.status) ? (item.createdAt || getNowFormatted()) : null),
+                icName: item.icName || 'Ciudadano RP',
+                icId: item.icId || '#0000',
+                icOccupation: item.icOccupation || item.icPhone || 'Independiente',
+                discordTag: item.discordTag || 'usuario_rp',
+                collateral: item.collateral || 'Sin especificar',
+                reason: item.reason || 'Capital operativo',
+                amount,
+                weeks,
+                rate,
+                interest,
+                totalPayable,
+                weeklyPayment,
+                weeksPaid,
+                remainingBalance,
+                status: item.status || 'pending',
+                paymentHistory: Array.isArray(item.paymentHistory) ? item.paymentHistory : []
+            };
+        }
+
+        function syncAcceptedVault(persist = true) {
+            const approvedStatuses = ['active', 'overdue', 'paid'];
+            const approvedLoans = loans.filter(l => approvedStatuses.includes(l.status));
+
+            // Actualizar o insertar cada crédito aprobado en la bóveda
+            approvedLoans.forEach(loan => {
+                if (!loan.approvedAt) loan.approvedAt = getNowFormatted();
+                const amountPaid = Math.max(0, loan.totalPayable - loan.remainingBalance);
+                const vaultEntry = {
+                    ...loan,
+                    amountPaid
+                };
+                const idx = acceptedVault.findIndex(v => v.id === loan.id);
+                if (idx >= 0) {
+                    acceptedVault[idx] = vaultEntry;
+                } else {
+                    acceptedVault.unshift(vaultEntry);
+                }
+            });
+
+            // Mantener en bóveda solo los que sigan aprobados (o archivados allí)
+            acceptedVault = acceptedVault.filter(v => loans.some(l => l.id === v.id && approvedStatuses.includes(l.status)));
+
+            if (persist) saveAllStorage();
+            updateBadges();
+        }
+
+        function saveAllStorage() {
+            try {
+                localStorage.setItem(STORAGE_LOANS_KEY, JSON.stringify(loans));
+                localStorage.setItem(STORAGE_ACCEPTED_KEY, JSON.stringify(acceptedVault));
+            } catch (err) {
+                console.error('Error guardando datos:', err);
+            }
+            updateBadges();
+        }
+
+        function updateBadges() {
+            const pendingCount = loans.filter(l => l.status === 'pending').length;
+            const pendingBadge = document.getElementById('pending-badge');
+            if (pendingBadge) {
+                pendingBadge.textContent = pendingCount;
+                pendingBadge.classList.toggle('hidden', pendingCount === 0);
+            }
+
+            const acceptedBadge = document.getElementById('accepted-badge');
+            if (acceptedBadge) {
+                acceptedBadge.textContent = acceptedVault.length;
+            }
+        }
+
+        // --- CÁLCULO FINANCIERO EXACTO ---
+        function calculateRate(amount, weeks) {
+            // Tasa base según semanas (4% a 12%) + ajuste de riesgo por monto
+            const baseRate = 3.5 + (weeks * 0.75);
+            let riskAdd = 0;
+            if (amount > 1000000) riskAdd = 3.0;
+            else if (amount > 300000) riskAdd = 1.5;
+            return Number((baseRate + riskAdd).toFixed(1));
+        }
+
+        function calculateLoanMetrics(amount, weeks) {
+            const rate = calculateRate(amount, weeks);
+            const interest = Math.round(amount * (rate / 100));
+            const totalPayable = amount + interest;
+            const weeklyPayment = Math.ceil(totalPayable / weeks);
+            return { amount, weeks, rate, interest, totalPayable, weeklyPayment };
+        }
+
+        function updateCalculator() {
+            const amount = Number(document.getElementById('loan-amount').value);
+            const weeks = Number(document.getElementById('loan-weeks').value);
+            const metrics = calculateLoanMetrics(amount, weeks);
+
+            document.getElementById('display-amount').textContent = formatNumber(amount);
+            document.getElementById('display-weeks').textContent = weeks;
+            document.getElementById('calc-rate').textContent = metrics.rate.toFixed(1) + '%';
+            document.getElementById('calc-weekly').textContent = '$' + formatNumber(metrics.weeklyPayment);
+            document.getElementById('calc-interest').textContent = '$' + formatNumber(metrics.interest);
+            document.getElementById('calc-total').textContent = '$' + formatNumber(metrics.totalPayable);
+
+            document.getElementById('form-summary-amount').textContent = formatMoney(amount);
+            document.getElementById('form-summary-weeks').textContent = weeks;
+
+            const tierBadge = document.getElementById('tier-badge');
+            const hint = document.getElementById('collateral-hint');
+
+            if (amount <= 300000) {
+                tierBadge.textContent = 'Crédito Personal Express';
+                tierBadge.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-regio-blue/20 text-regio-sky border border-regio-sky/30';
+                hint.textContent = 'Garantía Nivel 1 (Personal Express): Pasaporte IC vigente y ocupación/facción comprobable.';
+            } else if (amount <= 1000000) {
+                tierBadge.textContent = 'Línea Patrimonial Vehicular';
+                tierBadge.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+                hint.textContent = 'Garantía Nivel 2 (Patrimonial): Requiere presentar factura de vehículo como aval en el contrato IC.';
+            } else {
+                tierBadge.textContent = 'Crédito Corporativo Elite';
+                tierBadge.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-regio-gold/20 text-regio-gold border border-regio-gold/40';
+                hint.textContent = 'Garantía Nivel 3 (Corporativo Elite): Requiere escritura de propiedad, negocio o flotilla registrada.';
+            }
+        }
+
+        function focusApplicationForm() {
+            const card = document.getElementById('application-card');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => document.getElementById('ic-name').focus(), 400);
+        }
+
+        // --- TABLA DE AMORTIZACIÓN ---
+        function openAmortizationModal() {
+            const amount = Number(document.getElementById('loan-amount').value);
+            const weeks = Number(document.getElementById('loan-weeks').value);
+            const m = calculateLoanMetrics(amount, weeks);
+
+            document.getElementById('amortization-subtitle').textContent =
+                `Capital: ${formatMoney(amount)} • Plazo: ${weeks} semanas • Tasa Global: ${m.rate.toFixed(1)}%`;
+
+            const tbody = document.getElementById('amortization-tbody');
+            const weeklyPrincipal = Math.floor(amount / weeks);
+            const weeklyInterest = Math.floor(m.interest / weeks);
+            let remaining = m.totalPayable;
+            const rows = [];
+
+            for (let w = 1; w <= weeks; w++) {
+                const dueDate = new Date();
+                dueDate.setDate(dueDate.getDate() + (w * 7));
+                const dateStr = dueDate.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+
+                const paymentThisWeek = (w === weeks) ? remaining : Math.min(remaining, m.weeklyPayment);
+                const interestThisWeek = (w === weeks) ? Math.max(0, m.interest - weeklyInterest * (weeks - 1)) : weeklyInterest;
+                const principalThisWeek = Math.max(0, paymentThisWeek - interestThisWeek);
+                remaining = Math.max(0, remaining - paymentThisWeek);
+
+                rows.push(`
+                    <tr class="hover:bg-white/[0.03]">
+                        <td class="py-2.5 px-4 font-bold text-regio-sky">Semana ${w}</td>
+                        <td class="py-2.5 px-4 text-slate-300">${dateStr}</td>
+                        <td class="py-2.5 px-4 font-bold text-emerald-400">$${formatNumber(paymentThisWeek)}</td>
+                        <td class="py-2.5 px-4 text-slate-300">$${formatNumber(principalThisWeek)}</td>
+                        <td class="py-2.5 px-4 text-regio-gold">$${formatNumber(interestThisWeek)}</td>
+                        <td class="py-2.5 px-4 text-right text-white font-semibold">$${formatNumber(remaining)}</td>
+                    </tr>
+                `);
+            }
+
+            tbody.innerHTML = rows.join('');
+            document.getElementById('amortization-modal').classList.remove('hidden');
+        }
+
+        function closeAmortizationModal() {
+            document.getElementById('amortization-modal').classList.add('hidden');
+        }
+
+        function copyAmortizationDiscord() {
+            const amount = Number(document.getElementById('loan-amount').value);
+            const weeks = Number(document.getElementById('loan-weeks').value);
+            const m = calculateLoanMetrics(amount, weeks);
+
+            let lines = [
+                '```md',
+                '# BANCO REGÍO — PROYECCIÓN DE AMORTIZACIÓN (MXN)',
+                `* Capital Solicitado: ${formatMoney(amount)}`,
+                `* Plazo: ${weeks} semanas | Tasa Global: ${m.rate.toFixed(1)}%`,
+                `* Cuota Semanal: ${formatMoney(m.weeklyPayment)} | Total a Pagar: ${formatMoney(m.totalPayable)}`,
+                '------------------------------------------------------------'
+            ];
+
+            let remaining = m.totalPayable;
+            for (let w = 1; w <= weeks; w++) {
+                const pay = (w === weeks) ? remaining : Math.min(remaining, m.weeklyPayment);
+                remaining = Math.max(0, remaining - pay);
+                lines.push(`Semana ${String(w).padStart(2, '0')} | Cuota: $${formatNumber(pay).padEnd(10)} | Saldo Restante: $${formatNumber(remaining)}`);
+            }
+            lines.push('```');
+            copyTextToClipboard(lines.join('\n'), 'Tabla de amortización copiada para Discord.');
+        }
+
+        // --- ENVÍO DE SOLICITUD DE CRÉDITO ---
+        function handleLoanSubmit(e) {
+            e.preventDefault();
+
+            const icName = document.getElementById('ic-name').value.trim();
+            const icId = document.getElementById('ic-id').value.trim();
+            const icOccupation = document.getElementById('ic-occupation').value.trim();
+            const discordTag = document.getElementById('discord-tag').value.trim();
+            const collateral = document.getElementById('ic-collateral').value.trim();
+            const reason = document.getElementById('ic-reason').value.trim();
+
+            if (!icName || !icId || !icOccupation || !discordTag || !collateral || !reason) {
+                showToast('Por favor completa todos los campos obligatorios sin dejar espacios vacíos.', 'error');
+                return;
+            }
+
+            const amount = Number(document.getElementById('loan-amount').value);
+            const weeks = Number(document.getElementById('loan-weeks').value);
+            const m = calculateLoanMetrics(amount, weeks);
+
+            // Generar folio único garantizado
+            let newId = '';
+            do {
+                newId = 'REG-' + Math.floor(1000 + Math.random() * 9000);
+            } while (loans.some(l => l.id === newId));
+
+            const newLoan = {
+                id: newId,
+                createdAt: getNowFormatted(),
+                approvedAt: null,
+                icName,
+                icId,
+                icOccupation,
+                discordTag,
+                collateral,
+                reason,
+                amount: m.amount,
+                weeks: m.weeks,
+                rate: m.rate,
+                interest: m.interest,
+                totalPayable: m.totalPayable,
+                weeklyPayment: m.weeklyPayment,
+                weeksPaid: 0,
+                remainingBalance: m.totalPayable,
+                status: 'pending',
+                paymentHistory: []
+            };
+
+            loans.unshift(newLoan);
+            saveAllStorage();
+            logActivity('Nueva Solicitud', `${newLoan.id} — ${icName} (${icId}) solicitó ${formatMoney(amount)} a ${weeks} sem.`, 'SOLICITUD');
+
+            e.target.reset();
+            updateCalculator();
+            refreshActiveViews();
+
+            showToast(`Solicitud ${newLoan.id} por ${formatMoney(amount)} registrada con éxito.`, 'success');
+            openDiscordModal(newLoan.id, 'contract');
+        }
+
+        // --- NAVEGACIÓN ENTRE VISTAS ---
+        function switchTab(tab) {
+            if (tab === 'accepted' && !isAcceptedAuthenticated) {
+                requestVaultAccess('accepted');
+                return;
+            }
+            if (tab === 'admin' && !isAdminAuthenticated) {
+                requestVaultAccess('admin');
+                return;
+            }
+
+            const views = ['client', 'banker', 'accepted', 'admin'];
+            views.forEach(v => {
+                const el = document.getElementById('view-' + v);
+                if (el) el.classList.add('hidden');
+            });
+
+            // Resetear estilos de botones
+            document.getElementById('nav-client-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold transition-all bg-regio-800/90 text-slate-300 hover:text-white border border-slate-700 hover:border-regio-sky/50 flex items-center gap-1.5';
+            document.getElementById('nav-banker-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold transition-all bg-regio-800/90 text-slate-300 hover:text-white border border-slate-700 hover:border-regio-sky/50 flex items-center gap-1.5 relative';
+            document.getElementById('nav-accepted-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold transition-all bg-regio-800/90 text-regio-gold hover:text-regio-goldLight border border-regio-gold/35 hover:border-regio-gold/70 flex items-center gap-1.5';
+            document.getElementById('nav-admin-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold transition-all bg-regio-800/90 text-slate-300 hover:text-white border border-red-500/30 hover:border-red-500/60 flex items-center gap-1.5';
+
+            const activeView = document.getElementById('view-' + tab);
+            if (activeView) activeView.classList.remove('hidden');
+
+            if (tab === 'client') {
+                document.getElementById('nav-client-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-regio-blue text-white shadow-md shadow-regio-blue/30 flex items-center gap-1.5';
+            } else if (tab === 'banker') {
+                document.getElementById('nav-banker-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-regio-blue text-white shadow-md shadow-regio-blue/30 flex items-center gap-1.5 relative';
+                renderLoans();
+            } else if (tab === 'accepted') {
+                document.getElementById('nav-accepted-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all bg-regio-gold text-regio-950 shadow-md shadow-regio-gold/30 flex items-center gap-1.5';
+                renderAcceptedVault();
+            } else if (tab === 'admin') {
+                document.getElementById('nav-admin-btn').className = 'px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-red-600 text-white shadow-md shadow-red-600/30 flex items-center gap-1.5';
+                renderAdminRequests();
+            }
+        }
+
+        function refreshActiveViews() {
+            if (!document.getElementById('view-banker').classList.contains('hidden')) renderLoans();
+            if (isAcceptedAuthenticated && !document.getElementById('view-accepted').classList.contains('hidden')) renderAcceptedVault();
+            if (isAdminAuthenticated && !document.getElementById('view-admin').classList.contains('hidden')) renderAdminRequests();
+        }
+
+        // --- CONTROL DE ACCESO POR CONTRASEÑA (BÓVEDA Y AUDITORÍA) ---
+        function requestVaultAccess(target) {
+            if (target === 'accepted' && isAcceptedAuthenticated) {
+                switchTab('accepted');
+                return;
+            }
+            if (target === 'admin' && isAdminAuthenticated) {
+                switchTab('admin');
+                return;
+            }
+
+            pendingAuthTarget = target;
+            const modal = document.getElementById('vault-auth-modal');
+            const title = document.getElementById('auth-modal-title');
+            const subtitle = document.getElementById('auth-modal-subtitle');
+            const hint = document.getElementById('auth-modal-hint');
+            const iconBox = document.getElementById('auth-modal-icon-box');
+            const submitBtn = document.getElementById('auth-modal-submit-btn');
+
+            if (target === 'accepted') {
+                title.textContent = 'Bóveda de Créditos Aceptados';
+                subtitle.textContent = 'Acceso exclusivo para Administración del Banco.';
+                iconBox.className = 'w-10 h-10 rounded-xl bg-regio-gold/15 border border-regio-gold/40 flex items-center justify-center text-regio-gold';
+                iconBox.innerHTML = '<i class="fa-solid fa-vault text-lg"></i>';
+                submitBtn.className = 'px-5 py-2.5 rounded-xl bg-regio-gold hover:bg-regio-goldLight text-regio-950 text-xs font-extrabold shadow-lg shadow-regio-gold/25 transition-all flex items-center gap-2';
+                hint.innerHTML = `Clave de Bóveda por defecto: <code class="text-regio-gold bg-regio-950 px-1.5 py-0.5 rounded border border-slate-800 font-mono">${escapeHtml(getVaultPassword())}</code>`;
+            } else {
+                title.textContent = 'Auditoría General de Solicitudes';
+                subtitle.textContent = 'Acceso restringido para Dirección y Staff.';
+                iconBox.className = 'w-10 h-10 rounded-xl bg-red-500/15 border border-red-500/40 flex items-center justify-center text-red-400';
+                iconBox.innerHTML = '<i class="fa-solid fa-shield-halved text-lg"></i>';
+                submitBtn.className = 'px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold shadow-lg shadow-red-600/25 transition-all flex items-center gap-2';
+                hint.innerHTML = `Clave de Auditoría por defecto: <code class="text-red-400 bg-regio-950 px-1.5 py-0.5 rounded border border-slate-800 font-mono">${DEFAULT_ADMIN_PASS}</code>`;
+            }
+
+            const input = document.getElementById('vault-password-input');
+            input.value = '';
+            modal.classList.remove('hidden');
+            setTimeout(() => input.focus(), 60);
+        }
+
+        function closeVaultAuthModal() {
+            document.getElementById('vault-auth-modal').classList.add('hidden');
+            pendingAuthTarget = null;
+        }
+
+        function verifyVaultPassword(e) {
+            e.preventDefault();
+            const entered = document.getElementById('vault-password-input').value.trim();
+
+            if (pendingAuthTarget === 'accepted') {
+                if (entered === getVaultPassword()) {
+                    isAcceptedAuthenticated = true;
+                    closeVaultAuthModal();
+                    logActivity('Acceso Bóveda', 'Ingreso autorizado a Créditos Aceptados.', 'SEGURIDAD');
+                    showToast('Bóveda de Créditos Aceptados desbloqueada.', 'success');
+                    switchTab('accepted');
+                } else {
+                    showToast('Contraseña de Bóveda incorrecta.', 'error');
+                    document.getElementById('vault-password-input').value = '';
+                }
+            } else if (pendingAuthTarget === 'admin') {
+                if (entered === DEFAULT_ADMIN_PASS) {
+                    isAdminAuthenticated = true;
+                    closeVaultAuthModal();
+                    logActivity('Acceso Auditoría', 'Ingreso autorizado al panel de Auditoría General.', 'SEGURIDAD');
+                    showToast('Panel de Auditoría desbloqueado.', 'success');
+                    switchTab('admin');
+                } else {
+                    showToast('Contraseña de Auditoría incorrecta.', 'error');
+                    document.getElementById('vault-password-input').value = '';
+                }
+            }
+        }
+
+        function lockVaultSession(target) {
+            if (target === 'accepted') {
+                isAcceptedAuthenticated = false;
+                showToast('Bóveda de Créditos Aceptados cerrada y bloqueada.', 'info');
+            } else {
+                isAdminAuthenticated = false;
+                showToast('Sesión de Auditoría bloqueada.', 'info');
+            }
+            switchTab('client');
+        }
+
+        function openChangeVaultPasswordModal() {
+            document.getElementById('new-vault-pass').value = '';
+            document.getElementById('confirm-vault-pass').value = '';
+            document.getElementById('change-password-modal').classList.remove('hidden');
+        }
+
+        function closeChangeVaultPasswordModal() {
+            document.getElementById('change-password-modal').classList.add('hidden');
+        }
+
+        function saveNewVaultPassword(e) {
+            e.preventDefault();
+            const p1 = document.getElementById('new-vault-pass').value.trim();
+            const p2 = document.getElementById('confirm-vault-pass').value.trim();
+            if (p1.length < 4) {
+                showToast('La contraseña debe tener al menos 4 caracteres.', 'error');
+                return;
+            }
+            if (p1 !== p2) {
+                showToast('Las contraseñas no coinciden.', 'error');
+                return;
+            }
+            localStorage.setItem(STORAGE_VAULT_PASS_KEY, p1);
+            logActivity('Cambio de Clave', 'Se actualizó la contraseña de acceso a la Bóveda de Créditos Aceptados.', 'SEGURIDAD');
+            closeChangeVaultPasswordModal();
+            showToast('Contraseña de la Bóveda actualizada correctamente.', 'success');
+        }
+
+        // --- ACCIONES DEL BANQUERO Y ADMINISTRACIÓN ---
+        function approveLoan(id) {
+            const loan = loans.find(l => l.id === id);
+            if (!loan) return;
+            loan.status = 'active';
+            loan.approvedAt = getNowFormatted();
+            syncAcceptedVault(true);
+            logActivity('Crédito Aprobado', `${loan.id} aprobado para ${loan.icName} por ${formatMoney(loan.amount)}. Guardado en Bóveda.`, 'APROBADO');
+            refreshActiveViews();
+            showToast(`Crédito ${id} APROBADO y guardado en la Bóveda.`, 'success');
+        }
+
+        function rejectLoan(id) {
+            const loan = loans.find(l => l.id === id);
+            if (!loan) return;
+            loan.status = 'rejected';
+            syncAcceptedVault(true);
+            logActivity('Solicitud Rechazada', `${loan.id} de ${loan.icName} fue marcada como rechazada.`, 'RECHAZADO');
+            refreshActiveViews();
+            showToast(`Solicitud ${id} rechazada.`, 'info');
+        }
+
+        function registerWeeklyPayment(id) {
+            const loan = loans.find(l => l.id === id);
+            if (!loan || loan.remainingBalance <= 0) return;
+
+            const paymentAmount = Math.min(loan.remainingBalance, loan.weeklyPayment);
+            loan.remainingBalance = Math.max(0, loan.remainingBalance - paymentAmount);
+            loan.weeksPaid = Math.min(loan.weeks, loan.weeksPaid + 1);
+
+            loan.paymentHistory.push({
+                number: loan.paymentHistory.length + 1,
+                date: getNowFormatted(),
+                amount: paymentAmount,
+                remainingAfter: loan.remainingBalance
+            });
+
+            if (loan.remainingBalance === 0) {
+                loan.status = 'paid';
+                logActivity('Crédito Liquidado', `${loan.id} (${loan.icName}) liquidado al 100% con abono final de ${formatMoney(paymentAmount)}.`, 'LIQUIDADO');
+                showToast(`¡Crédito ${id} LIQUIDADO en su totalidad!`, 'success');
+            } else {
+                if (loan.status === 'overdue') loan.status = 'active';
+                logActivity('Abono Registrado', `${loan.id} (${loan.icName}) abonó ${formatMoney(paymentAmount)}. Saldo: ${formatMoney(loan.remainingBalance)}.`, 'PAGO');
+                showToast(`Abono de ${formatMoney(paymentAmount)} registrado en ${id}.`, 'success');
+            }
+
+            syncAcceptedVault(true);
+            refreshActiveViews();
+        }
+
+        function applyLateFee(id) {
+            const loan = loans.find(l => l.id === id);
+            if (!loan || loan.remainingBalance <= 0) return;
+
+            const penalty = Math.round(loan.remainingBalance * 0.05);
+            loan.remainingBalance += penalty;
+            loan.totalPayable += penalty;
+            loan.status = 'overdue';
+
+            syncAcceptedVault(true);
+            logActivity('Mora Aplicada (+5%)', `Recargo de ${formatMoney(penalty)} aplicado a ${loan.id} (${loan.icName}).`, 'MORA');
+            refreshActiveViews();
+            showToast(`Recargo por mora (+${formatMoney(penalty)}) aplicado a ${id}.`, 'error');
+        }
+
+        function markLoanPaidFull(id) {
+            const loan = loans.find(l => l.id === id);
+            if (!loan || loan.remainingBalance <= 0) return;
+
+            const finalPay = loan.remainingBalance;
+            loan.paymentHistory.push({
+                number: loan.paymentHistory.length + 1,
+                date: getNowFormatted(),
+                amount: finalPay,
+                remainingAfter: 0,
+                note: 'Liquidación total anticipada'
+            });
+
+            loan.remainingBalance = 0;
+            loan.weeksPaid = loan.weeks;
+            loan.status = 'paid';
+
+            syncAcceptedVault(true);
+            logActivity('Liquidación Total', `${loan.id} (${loan.icName}) liquidado por ${formatMoney(finalPay)}.`, 'LIQUIDADO');
+            refreshActiveViews();
+            showToast(`Crédito ${id} marcado como LIQUIDADO.`, 'success');
+        }
+
+        function deleteLoan(id) {
+            const loan = loans.find(l => l.id === id);
+            loans = loans.filter(l => l.id !== id);
+            syncAcceptedVault(true);
+            if (loan) logActivity('Registro Eliminado', `Expediente ${id} (${loan.icName}) eliminado del sistema.`, 'ELIMINADO');
+            refreshActiveViews();
+            showToast(`Expediente ${id} eliminado.`, 'info');
+        }
+
+        // --- RENDERIZADO DE CARTERA (#view-banker) ---
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = 'filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white';
+            });
+            const active = document.getElementById('filter-' + filter);
+            if (active) active.className = 'filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-regio-blue text-white';
+            renderLoans();
+        }
+
+        function renderLoans() {
+            // Calcular KPIs de Cartera
+            const activeLoans = loans.filter(l => ['active', 'overdue'].includes(l.status));
+            const totalLent = activeLoans.reduce((acc, l) => acc + l.amount, 0);
+            const totalReceivable = activeLoans.reduce((acc, l) => acc + l.remainingBalance, 0);
+            const pendingCount = loans.filter(l => l.status === 'pending').length;
+            const overdueCount = loans.filter(l => l.status === 'overdue').length;
+
+            document.getElementById('kpi-lent').textContent = formatMoney(totalLent);
+            document.getElementById('kpi-receivable').textContent = formatMoney(totalReceivable);
+            document.getElementById('kpi-pending').textContent = pendingCount;
+            document.getElementById('kpi-overdue').textContent = overdueCount;
+
+            const container = document.getElementById('loans-list-container');
+            const query = (document.getElementById('search-loans')?.value || '').toLowerCase().trim();
+
+            const filtered = loans.filter(l => {
+                if (l.status === 'rejected' && currentFilter !== 'all') return false;
+                const matchesFilter = currentFilter === 'all' ? l.status !== 'rejected' : l.status === currentFilter;
+                const matchesQuery =
+                    l.id.toLowerCase().includes(query) ||
+                    l.icName.toLowerCase().includes(query) ||
+                    l.icId.toLowerCase().includes(query) ||
+                    l.icOccupation.toLowerCase().includes(query) ||
+                    l.discordTag.toLowerCase().includes(query);
+                return matchesFilter && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full glass-card rounded-2xl p-12 text-center space-y-3">
+                        <i class="fa-solid fa-folder-open text-3xl text-slate-600"></i>
+                        <h3 class="text-base font-bold text-white">Sin registros en esta vista</h3>
+                        <p class="text-xs text-slate-400">No hay préstamos que coincidan con el filtro o búsqueda actual.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const statusConfig = {
+                pending: { label: 'PENDIENTE DE APROBACIÓN', cls: 'bg-amber-500/15 text-amber-400 border-amber-500/35' },
+                active: { label: 'CRÉDITO ACTIVO', cls: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/35' },
+                overdue: { label: 'EN MORA (+5%)', cls: 'bg-red-500/15 text-red-400 border-red-500/35' },
+                paid: { label: 'LIQUIDADO 100%', cls: 'bg-regio-sky/15 text-regio-sky border-regio-sky/35' },
+                rejected: { label: 'RECHAZADO', cls: 'bg-slate-700/40 text-slate-400 border-slate-700' }
+            };
+
+            container.innerHTML = filtered.map(loan => {
+                const st = statusConfig[loan.status] || statusConfig.pending;
+                const pct = loan.totalPayable > 0
+                    ? Math.min(100, Math.round(((loan.totalPayable - loan.remainingBalance) / loan.totalPayable) * 100))
+                    : 100;
+
+                return `
+                    <article class="glass-card rounded-2xl p-6 space-y-4 border border-slate-800 hover:border-regio-sky/35 transition-all">
+                        <div class="flex items-start justify-between gap-3 border-b border-slate-800/80 pb-3.5">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-mono font-extrabold text-sm text-regio-gold">${escapeHtml(loan.id)}</span>
+                                    <span class="text-[11px] text-slate-500">• ${escapeHtml(loan.createdAt)}</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-white mt-0.5">${escapeHtml(loan.icName)} <span class="text-xs font-normal text-slate-400">(${escapeHtml(loan.icId)})</span></h3>
+                                <div class="flex flex-wrap items-center gap-3 text-xs text-slate-400 mt-1">
+                                    <span><i class="fa-solid fa-briefcase text-regio-sky mr-1"></i>${escapeHtml(loan.icOccupation)}</span>
+                                    <span class="text-indigo-400"><i class="fa-brands fa-discord mr-1"></i>${escapeHtml(loan.discordTag)}</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg border text-[10px] font-extrabold tracking-wider shrink-0 ${st.cls}">${st.label}</span>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2.5 bg-regio-950/80 p-3.5 rounded-xl border border-slate-800/90 text-xs">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block">Capital</span>
+                                <span class="font-mono font-bold text-white">${formatMoney(loan.amount)}</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block">Cuota (${loan.weeks} sem)</span>
+                                <span class="font-mono font-bold text-regio-sky">$${formatNumber(loan.weeklyPayment)}</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block">Saldo Restante</span>
+                                <span class="font-mono font-bold ${loan.remainingBalance > 0 ? 'text-emerald-400' : 'text-slate-400'}">${formatMoney(loan.remainingBalance)}</span>
+                            </div>
+                        </div>
+
+                        <!-- Barra de progreso -->
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[11px]">
+                                <span class="text-slate-400">Progreso: <strong class="text-white">${loan.weeksPaid}/${loan.weeks} cuotas</strong> (${pct}%)</span>
+                                <span class="text-slate-400">Total c/ interés: <strong class="text-regio-gold font-mono">$${formatNumber(loan.totalPayable)}</strong></span>
+                            </div>
+                            <div class="w-full h-2 bg-regio-950 rounded-full overflow-hidden border border-slate-800">
+                                <div class="h-full bg-gradient-to-r from-regio-blue to-emerald-400 transition-all duration-300" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-slate-300 space-y-1 bg-regio-900/50 p-3 rounded-xl border border-slate-800/60">
+                            <p><strong class="text-regio-gold"><i class="fa-solid fa-shield-halved mr-1"></i>Aval:</strong> ${escapeHtml(loan.collateral)}</p>
+                            <p class="text-slate-400"><strong class="text-slate-300">Motivo:</strong> ${escapeHtml(loan.reason)}</p>
+                        </div>
+
+                        <!-- Botones de Gestión -->
+                        <div class="flex flex-wrap items-center gap-2 pt-1">
+                            ${loan.status === 'pending' ? `
+                                <button onclick="approveLoan('${escapeHtml(loan.id)}')" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-check"></i> Aprobar y Desembolsar
+                                </button>
+                                <button onclick="rejectLoan('${escapeHtml(loan.id)}')" class="py-2 px-3 rounded-xl bg-red-600/20 hover:bg-red-600/35 text-red-400 border border-red-500/35 text-xs font-bold transition-colors">
+                                    Rechazar
+                                </button>
+                            ` : ''}
+
+                            ${['active', 'overdue'].includes(loan.status) ? `
+                                <button onclick="registerWeeklyPayment('${escapeHtml(loan.id)}')" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-hand-holding-dollar"></i> Registrar Pago (+1 Sem)
+                                </button>
+                                <button onclick="applyLateFee('${escapeHtml(loan.id)}')" class="py-2 px-2.5 rounded-xl bg-red-600/20 hover:bg-red-600/35 text-red-400 border border-red-500/35 text-xs font-bold transition-colors" title="Aplicar recargo por mora +5%">
+                                    +5% Mora
+                                </button>
+                                <button onclick="markLoanPaidFull('${escapeHtml(loan.id)}')" class="py-2 px-2.5 rounded-xl bg-regio-sky/15 hover:bg-regio-sky/25 text-regio-sky border border-regio-sky/35 text-xs font-bold transition-colors" title="Liquidar crédito completo">
+                                    Liquidar
+                                </button>
+                            ` : ''}
+
+                            <button onclick="openLoanDetailModal('${escapeHtml(loan.id)}')" class="py-2 px-2.5 rounded-xl bg-regio-800 hover:bg-regio-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-colors" title="Ver historial de abonos">
+                                <i class="fa-solid fa-receipt"></i>
+                            </button>
+
+                            <button onclick="openDiscordModal('${escapeHtml(loan.id)}', '${loan.paymentHistory.length > 0 ? 'payment' : 'contract'}')" class="py-2 px-3 rounded-xl bg-indigo-600/25 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/40 text-xs font-bold transition-colors flex items-center gap-1.5">
+                                <i class="fa-brands fa-discord"></i> Ticket
+                            </button>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // --- RENDERIZADO DE BÓVEDA DE CRÉDITOS ACEPTADOS (#view-accepted) ---
+        function setAcceptedFilter(filter) {
+            acceptedFilter = filter;
+            document.querySelectorAll('.acc-filter-btn').forEach(btn => {
+                btn.className = 'acc-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white';
+            });
+            const active = document.getElementById('acc-filter-' + filter);
+            if (active) active.className = 'acc-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-regio-gold text-regio-950';
+            renderAcceptedVault();
+        }
+
+        function renderAcceptedVault() {
+            syncAcceptedVault(false);
+
+            const totalCount = acceptedVault.length;
+            const totalPrincipal = acceptedVault.reduce((acc, v) => acc + v.amount, 0);
+            const totalInterest = acceptedVault.reduce((acc, v) => acc + v.interest, 0);
+            const totalCollected = acceptedVault.reduce((acc, v) => acc + Math.max(0, v.totalPayable - v.remainingBalance), 0);
+            const totalPending = acceptedVault.reduce((acc, v) => acc + v.remainingBalance, 0);
+
+            document.getElementById('vault-stat-count').textContent = totalCount;
+            document.getElementById('vault-stat-principal').textContent = formatMoney(totalPrincipal);
+            document.getElementById('vault-stat-interest').textContent = formatMoney(totalInterest);
+            document.getElementById('vault-stat-collected').textContent = formatMoney(totalCollected);
+            document.getElementById('vault-stat-pending').textContent = formatMoney(totalPending);
+
+            const tbody = document.getElementById('accepted-vault-tbody');
+            const query = (document.getElementById('accepted-search-input')?.value || '').toLowerCase().trim();
+
+            const filtered = acceptedVault.filter(v => {
+                const matchesStatus = acceptedFilter === 'all' || v.status === acceptedFilter;
+                const matchesQuery =
+                    v.id.toLowerCase().includes(query) ||
+                    v.icName.toLowerCase().includes(query) ||
+                    v.icId.toLowerCase().includes(query) ||
+                    v.discordTag.toLowerCase().includes(query) ||
+                    v.collateral.toLowerCase().includes(query);
+                return matchesStatus && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="py-12 text-center text-slate-500">
+                            <i class="fa-solid fa-vault text-2xl mb-2 block text-regio-gold/60"></i>
+                            No hay créditos aceptados que coincidan con este filtro.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const badges = {
+                active: '<span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/35 font-bold text-[10px]">ACTIVO</span>',
+                overdue: '<span class="px-2 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/35 font-bold text-[10px]">EN MORA</span>',
+                paid: '<span class="px-2 py-0.5 rounded bg-regio-sky/15 text-regio-sky border border-regio-sky/35 font-bold text-[10px]">LIQUIDADO</span>'
+            };
+
+            tbody.innerHTML = filtered.map(v => {
+                const paid = Math.max(0, v.totalPayable - v.remainingBalance);
+                const pct = v.totalPayable > 0 ? Math.min(100, Math.round((paid / v.totalPayable) * 100)) : 100;
+
+                return `
+                    <tr class="hover:bg-white/[0.02] transition-colors">
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="font-mono font-extrabold text-regio-gold block">${escapeHtml(v.id)}</span>
+                            <span class="text-[10px] text-slate-400">Aprobado: ${escapeHtml(v.approvedAt || v.createdAt)}</span>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <span class="font-bold text-white block">${escapeHtml(v.icName)} <span class="text-slate-400 font-normal">(${escapeHtml(v.icId)})</span></span>
+                            <span class="text-[11px] text-indigo-400"><i class="fa-brands fa-discord mr-1"></i>${escapeHtml(v.discordTag)}</span>
+                        </td>
+                        <td class="py-3.5 px-4 font-mono font-bold text-white whitespace-nowrap">
+                            ${formatMoney(v.amount)}
+                        </td>
+                        <td class="py-3.5 px-4 font-mono text-slate-300 whitespace-nowrap">
+                            ${formatMoney(v.totalPayable)}
+                            <span class="block text-[10px] text-regio-gold">${v.weeks} sem • ${v.rate}%</span>
+                        </td>
+                        <td class="py-3.5 px-4 font-mono whitespace-nowrap">
+                            <span class="text-emerald-400 block">Pagado: $${formatNumber(paid)}</span>
+                            <span class="text-red-400 text-[11px]">Resta: $${formatNumber(v.remainingBalance)}</span>
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <div class="w-24">
+                                <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                                    <span>${v.weeksPaid}/${v.weeks}</span>
+                                    <span>${pct}%</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-regio-950 rounded-full overflow-hidden">
+                                    <div class="h-full bg-regio-gold" style="width: ${pct}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-3.5 px-4 max-w-[180px]">
+                            <span class="text-slate-200 block truncate" title="${escapeHtml(v.collateral)}">${escapeHtml(v.collateral)}</span>
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            ${badges[v.status] || escapeHtml(v.status)}
+                        </td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                            <div class="inline-flex items-center gap-1.5">
+                                <button onclick="openLoanDetailModal('${escapeHtml(v.id)}')" class="px-2.5 py-1.5 rounded-lg bg-regio-800 hover:bg-regio-700 text-slate-200 border border-slate-700 text-[11px] font-semibold" title="Ver expediente y pagos">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <button onclick="openDiscordModal('${escapeHtml(v.id)}', 'contract')" class="px-2.5 py-1.5 rounded-lg bg-regio-gold/20 hover:bg-regio-gold/30 text-regio-gold border border-regio-gold/40 text-[11px] font-bold" title="Contrato Oficial Discord">
+                                    <i class="fa-brands fa-discord"></i> Contrato
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // --- RENDERIZADO DE AUDITORÍA GENERAL (#view-admin) ---
+        function setAdminFilter(filter) {
+            adminFilter = filter;
+            document.querySelectorAll('.admin-filter-btn').forEach(btn => {
+                btn.className = 'admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-regio-950 text-slate-400 hover:text-white';
+            });
+            const active = document.getElementById('admin-filter-' + filter);
+            if (active) active.className = 'admin-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-red-600 text-white';
+            renderAdminRequests();
+        }
+
+        function renderAdminRequests() {
+            document.getElementById('admin-stat-total').textContent = loans.length;
+            document.getElementById('admin-stat-pending').textContent = loans.filter(l => l.status === 'pending').length;
+            document.getElementById('admin-stat-approved').textContent = loans.filter(l => ['active', 'overdue', 'paid'].includes(l.status)).length;
+            document.getElementById('admin-stat-rejected').textContent = loans.filter(l => l.status === 'rejected').length;
+            document.getElementById('admin-stat-volume').textContent = formatMoney(loans.reduce((acc, l) => acc + l.amount, 0));
+
+            const tbody = document.getElementById('admin-requests-tbody');
+            const query = (document.getElementById('admin-search-input')?.value || '').toLowerCase().trim();
+
+            const filtered = loans.filter(l => {
+                const matchesStatus = adminFilter === 'all' || l.status === adminFilter;
+                const matchesQuery =
+                    l.id.toLowerCase().includes(query) ||
+                    l.icName.toLowerCase().includes(query) ||
+                    l.icId.toLowerCase().includes(query) ||
+                    l.discordTag.toLowerCase().includes(query) ||
+                    l.icOccupation.toLowerCase().includes(query) ||
+                    l.collateral.toLowerCase().includes(query) ||
+                    l.reason.toLowerCase().includes(query);
+                return matchesStatus && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="py-12 text-center text-slate-500">
+                            No se encontraron solicitudes en el registro maestro.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const statusBadges = {
+                pending: '<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/35 font-bold text-[10px]">PENDIENTE</span>',
+                active: '<span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/35 font-bold text-[10px]">ACTIVO</span>',
+                overdue: '<span class="px-2 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/35 font-bold text-[10px]">EN MORA</span>',
+                paid: '<span class="px-2 py-0.5 rounded bg-regio-sky/15 text-regio-sky border border-regio-sky/35 font-bold text-[10px]">LIQUIDADO</span>',
+                rejected: '<span class="px-2 py-0.5 rounded bg-slate-700/40 text-slate-400 border border-slate-700 font-bold text-[10px]">RECHAZADO</span>'
+            };
+
+            tbody.innerHTML = filtered.map(l => `
+                <tr class="hover:bg-white/[0.02] transition-colors">
+                    <td class="py-3.5 px-4 whitespace-nowrap">
+                        <span class="font-mono font-bold text-regio-gold block">${escapeHtml(l.id)}</span>
+                        <span class="text-[10px] text-slate-500">${escapeHtml(l.createdAt)}</span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <span class="font-bold text-white block">${escapeHtml(l.icName)} <span class="text-slate-400 font-normal">(${escapeHtml(l.icId)})</span></span>
+                        <span class="text-[11px] text-indigo-400"><i class="fa-brands fa-discord mr-1"></i>${escapeHtml(l.discordTag)}</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-slate-300">${escapeHtml(l.icOccupation)}</td>
+                    <td class="py-3.5 px-4 whitespace-nowrap font-mono">
+                        <span class="font-bold text-emerald-400 block">${formatMoney(l.amount)}</span>
+                        <span class="text-[10px] text-slate-400">${l.weeks} sem (${l.rate}%) • Total: $${formatNumber(l.totalPayable)}</span>
+                    </td>
+                    <td class="py-3.5 px-4 max-w-xs">
+                        <span class="text-slate-200 font-medium block truncate" title="${escapeHtml(l.collateral)}">${escapeHtml(l.collateral)}</span>
+                        <span class="text-[11px] text-slate-500 block truncate" title="${escapeHtml(l.reason)}">${escapeHtml(l.reason)}</span>
+                    </td>
+                    <td class="py-3.5 px-4 whitespace-nowrap">${statusBadges[l.status] || escapeHtml(l.status)}</td>
+                    <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                        <div class="inline-flex items-center gap-1.5">
+                            ${l.status === 'pending' ? `
+                                <button onclick="approveLoan('${escapeHtml(l.id)}')" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px]" title="Aprobar">
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+                                <button onclick="rejectLoan('${escapeHtml(l.id)}')" class="px-2.5 py-1 rounded bg-red-600/20 hover:bg-red-600/35 text-red-400 border border-red-500/35 font-bold text-[11px]" title="Rechazar">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            ` : ''}
+                            <button onclick="openLoanDetailModal('${escapeHtml(l.id)}')" class="p-1.5 rounded bg-regio-800 text-slate-300 hover:text-white" title="Detalles">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button onclick="openDiscordModal('${escapeHtml(l.id)}', 'contract')" class="p-1.5 rounded bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600/35" title="Ticket Discord">
+                                <i class="fa-brands fa-discord"></i>
+                            </button>
+                            <button onclick="deleteLoan('${escapeHtml(l.id)}')" class="p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-slate-800" title="Eliminar">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // --- MODAL DE DETALLE E HISTORIAL DE ABONOS ---
+        function openLoanDetailModal(id) {
+            const loan = loans.find(l => l.id === id);
+            if (!loan) return;
+
+            document.getElementById('detail-modal-title').textContent = `Expediente ${loan.id} — ${loan.icName}`;
+            document.getElementById('detail-modal-subtitle').textContent = `Solicitado: ${loan.createdAt}${loan.approvedAt ? ' • Aprobado: ' + loan.approvedAt : ''}`;
+
+            const paid = Math.max(0, loan.totalPayable - loan.remainingBalance);
+            const historyHtml = loan.paymentHistory.length === 0
+                ? '<p class="text-slate-500 italic py-4 text-center">Aún no se han registrado abonos semanales en este expediente.</p>'
+                : loan.paymentHistory.map(p => `
+                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-regio-950 border border-slate-800">
+                        <div>
+                            <span class="font-bold text-emerald-400">Abono #${p.number}</span>
+                            <span class="text-slate-400 ml-2">${escapeHtml(p.date)}</span>
+                            ${p.note ? `<span class="block text-[10px] text-regio-gold">${escapeHtml(p.note)}</span>` : ''}
+                        </div>
+                        <div class="text-right font-mono">
+                            <span class="font-bold text-white block">+${formatMoney(p.amount)}</span>
+                            <span class="text-[10px] text-slate-400">Restante: $${formatNumber(p.remainingAfter)}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+            document.getElementById('loan-detail-body').innerHTML = `
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <div class="p-3 rounded-xl bg-regio-950 border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase block">Capital Prestado</span>
+                        <span class="font-mono font-bold text-white">${formatMoney(loan.amount)}</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-regio-950 border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase block">Total Contrato</span>
+                        <span class="font-mono font-bold text-regio-gold">${formatMoney(loan.totalPayable)}</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-regio-950 border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase block">Total Abonado</span>
+                        <span class="font-mono font-bold text-emerald-400">${formatMoney(paid)}</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-regio-950 border border-slate-800">
+                        <span class="text-[10px] text-slate-400 uppercase block">Saldo Pendiente</span>
+                        <span class="font-mono font-bold text-red-400">${formatMoney(loan.remainingBalance)}</span>
+                    </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-regio-900/70 border border-slate-800 space-y-1.5">
+                    <p><strong class="text-slate-300">Titular IC:</strong> ${escapeHtml(loan.icName)} (${escapeHtml(loan.icId)}) • <strong class="text-slate-300">Discord:</strong> ${escapeHtml(loan.discordTag)}</p>
+                    <p><strong class="text-slate-300">Ocupación / Facción:</strong> ${escapeHtml(loan.icOccupation)}</p>
+                    <p><strong class="text-regio-gold">Aval / Garantía:</strong> ${escapeHtml(loan.collateral)}</p>
+                    <p><strong class="text-slate-300">Destino del Capital:</strong> ${escapeHtml(loan.reason)}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="font-bold text-white text-xs uppercase tracking-wider">Historial de Pagos y Abonos (${loan.paymentHistory.length})</h4>
+                    <div class="space-y-2">${historyHtml}</div>
+                </div>
+            `;
+
+            document.getElementById('loan-detail-modal').classList.remove('hidden');
+        }
+
+        function closeLoanDetailModal() {
+            document.getElementById('loan-detail-modal').classList.add('hidden');
+        }
+
+        // --- GENERADOR DE DOCUMENTOS MARKDOWN PARA DISCORD ---
+        function openDiscordModal(id, defaultType = 'contract') {
+            selectedModalLoanId = id;
+            selectedDocType = defaultType;
+            updateDiscordDocButtons();
+            generateDiscordMarkdown();
+            document.getElementById('discord-modal').classList.remove('hidden');
+        }
+
+        function closeDiscordModal() {
+            document.getElementById('discord-modal').classList.add('hidden');
+            selectedModalLoanId = null;
+        }
+
+        function switchDiscordDocType(type) {
+            selectedDocType = type;
+            updateDiscordDocButtons();
+            generateDiscordMarkdown();
+        }
+
+        function updateDiscordDocButtons() {
+            const types = ['contract', 'receipt', 'payment'];
+            types.forEach(t => {
+                const btn = document.getElementById('doc-type-' + t);
+                if (!btn) return;
+                btn.className = (t === selectedDocType)
+                    ? 'py-2 px-2.5 rounded-lg text-[11px] font-bold bg-regio-gold text-regio-950 transition-colors'
+                    : 'py-2 px-2.5 rounded-lg text-[11px] font-semibold bg-regio-950 text-slate-300 border border-slate-700 transition-colors';
+            });
+        }
+
+        function generateDiscordMarkdown() {
+            const loan = loans.find(l => l.id === selectedModalLoanId);
+            if (!loan) return;
+
+            const output = document.getElementById('discord-markdown-output');
+            const paid = Math.max(0, loan.totalPayable - loan.remainingBalance);
+
+            if (selectedDocType === 'contract') {
+                output.value = [
+                    '```md',
+                    '# BANCO REGÍO — EL RESPALDO DE MONTERREY (RP EST. 2024)',
+                    `## CONTRATO DE CRÉDITO OFICIAL | FOLIO: ${loan.id}`,
+                    '================================================================',
+                    `* Fecha de Solicitud : ${loan.createdAt}`,
+                    `* Fecha Aprobación   : ${loan.approvedAt || 'En dictamen'}`,
+                    `* Titular (IC)       : ${loan.icName} (${loan.icId})`,
+                    `* Ocupación/Facción  : ${loan.icOccupation}`,
+                    `* Contacto (OOC)     : @${loan.discordTag}`,
+                    '----------------------------------------------------------------',
+                    `* Capital Otorgado   : ${formatMoney(loan.amount)}`,
+                    `* Tasa Global        : ${loan.rate}%`,
+                    `* Plazo Pactado      : ${loan.weeks} semanas`,
+                    `* Cuota Semanal      : ${formatMoney(loan.weeklyPayment)}`,
+                    `* Total a Liquidar   : ${formatMoney(loan.totalPayable)}`,
+                    '----------------------------------------------------------------',
+                    `* Aval / Garantía    : ${loan.collateral}`,
+                    `* Destino Capital    : ${loan.reason}`,
+                    '================================================================',
+                    'CLÁUSULA: El incumplimiento semanal genera +5% de mora. Al acumular',
+                    '2 cuotas vencidas, Banco Regío ejecutará la garantía estipulada.',
+                    '```'
+                ].join('\n');
+            } else if (selectedDocType === 'receipt') {
+                output.value = [
+                    '```md',
+                    '# BANCO REGÍO — ESTADO DE CUENTA ACTUALIZADO',
+                    `## EXPEDIENTE: ${loan.id} | TITULAR: ${loan.icName} (${loan.icId})`,
+                    '================================================================',
+                    `* Estatus Actual     : ${loan.status.toUpperCase()}`,
+                    `* Cuotas Cubiertas   : ${loan.weeksPaid} de ${loan.weeks} semanas`,
+                    `* Total Contrato     : ${formatMoney(loan.totalPayable)}`,
+                    `* Monto Abonado      : ${formatMoney(paid)}`,
+                    `* SALDO PENDIENTE    : ${formatMoney(loan.remainingBalance)}`,
+                    `* Próxima Cuota      : ${loan.remainingBalance > 0 ? formatMoney(Math.min(loan.remainingBalance, loan.weeklyPayment)) : '$0 MXN (LIQUIDADO)'}`,
+                    '================================================================',
+                    `Emitido el ${getNowFormatted()} — Banco Regío Monterrey RP`,
+                    '```'
+                ].join('\n');
+            } else {
+                const lastPay = loan.paymentHistory[loan.paymentHistory.length - 1];
+                if (!lastPay) {
+                    output.value = [
+                        '```md',
+                        '# BANCO REGÍO — COMPROBANTE DE ABONO',
+                        `* Expediente: ${loan.id} | Titular: ${loan.icName}`,
+                        '* Aviso: Este crédito aún no registra pagos semanales abonados.',
+                        `* Saldo Pendiente Actual: ${formatMoney(loan.remainingBalance)}`,
+                        '```'
+                    ].join('\n');
+                } else {
+                    output.value = [
+                        '```md',
+                        '# BANCO REGÍO — RECIBO OFICIAL DE ABONO',
+                        `## FOLIO CRÉDITO: ${loan.id} | RECIBO #${lastPay.number}`,
+                        '================================================================',
+                        `* Fecha y Hora Pago  : ${lastPay.date}`,
+                        `* Cliente (IC)       : ${loan.icName} (${loan.icId})`,
+                        `* Discord (OOC)      : @${loan.discordTag}`,
+                        `* MONTO RECIBIDO     : ${formatMoney(lastPay.amount)}`,
+                        `* Cuotas Pagadas     : ${loan.weeksPaid}/${loan.weeks}`,
+                        `* SALDO RESTANTE     : ${formatMoney(lastPay.remainingAfter)}`,
+                        '================================================================',
+                        'Gracias por mantener su historial crediticio al día en Monterrey.',
+                        '```'
+                    ].join('\n');
+                }
+            }
+        }
+
+        function copyDiscordMarkdown() {
+            const text = document.getElementById('discord-markdown-output').value;
+            copyTextToClipboard(text, 'Documento copiado. Listo para pegar en Discord.');
+        }
+
+        function copyTextToClipboard(text, successMsg) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            temp.style.position = 'fixed';
+            temp.style.opacity = '0';
+            document.body.appendChild(temp);
+            temp.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg, 'success');
+            } catch (e) {
+                showToast('No se pudo copiar automáticamente.', 'error');
+            }
+            document.body.removeChild(temp);
+        }
+
+        // --- EXPORTACIONES CSV Y RESPALDO JSON ---
+        function exportAcceptedCSV() {
+            if (acceptedVault.length === 0) {
+                showToast('No hay créditos aceptados para exportar.', 'info');
+                return;
+            }
+            const headers = ['Folio', 'Fecha_Aprobacion', 'Titular_IC', 'ID_Pasaporte', 'Ocupacion', 'Discord', 'Capital_MXN', 'Tasa', 'Semanas', 'Total_Pagar_MXN', 'Pagado_MXN', 'Saldo_Pendiente_MXN', 'Aval', 'Estatus'];
+            const rows = acceptedVault.map(v => {
+                const paid = Math.max(0, v.totalPayable - v.remainingBalance);
+                return [
+                    v.id,
+                    `"${v.approvedAt || v.createdAt}"`,
+                    `"${v.icName.replace(/"/g, '""')}"`,
+                    `"${v.icId.replace(/"/g, '""')}"`,
+                    `"${v.icOccupation.replace(/"/g, '""')}"`,
+                    `"${v.discordTag.replace(/"/g, '""')}"`,
+                    v.amount,
+                    `${v.rate}%`,
+                    v.weeks,
+                    v.totalPayable,
+                    paid,
+                    v.remainingBalance,
+                    `"${v.collateral.replace(/"/g, '""')}"`,
+                    v.status.toUpperCase()
+                ].join(',');
+            });
+            downloadCSVFile([headers.join(','), ...rows].join('\n'), `banco_regio_creditos_aceptados_${new Date().toISOString().slice(0, 10)}.csv`);
+            showToast('CSV de Créditos Aceptados descargado.', 'success');
+        }
+
+        function exportAdminCSV() {
+            if (loans.length === 0) {
+                showToast('No hay solicitudes registradas para exportar.', 'info');
+                return;
+            }
+            const headers = ['Folio', 'Fecha_Solicitud', 'Fecha_Aprobacion', 'Titular_IC', 'ID_Pasaporte', 'Ocupacion', 'Discord', 'Monto_MXN', 'Semanas', 'Tasa', 'Total_Pagar_MXN', 'Aval', 'Motivo', 'Estado'];
+            const rows = loans.map(l => [
+                l.id,
+                `"${l.createdAt}"`,
+                `"${l.approvedAt || 'N/A'}"`,
+                `"${l.icName.replace(/"/g, '""')}"`,
+                `"${l.icId.replace(/"/g, '""')}"`,
+                `"${l.icOccupation.replace(/"/g, '""')}"`,
+                `"${l.discordTag.replace(/"/g, '""')}"`,
+                l.amount,
+                l.weeks,
+                `${l.rate}%`,
+                l.totalPayable,
+                `"${l.collateral.replace(/"/g, '""')}"`,
+                `"${l.reason.replace(/"/g, '""')}"`,
+                l.status.toUpperCase()
+            ].join(','));
+            downloadCSVFile([headers.join(','), ...rows].join('\n'), `banco_regio_solicitudes_${new Date().toISOString().slice(0, 10)}.csv`);
+            showToast('CSV de Auditoría General descargado.', 'success');
+        }
+
+        function downloadCSVFile(content, filename) {
+            const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function openBackupModal() {
+            document.getElementById('backup-modal').classList.remove('hidden');
+        }
+
+        function closeBackupModal() {
+            document.getElementById('backup-modal').classList.add('hidden');
+        }
+
+        function downloadFullBackupJSON() {
+            const payload = {
+                bank: 'Banco Regío - El Respaldo de Monterrey',
+                exportedAt: getNowFormatted(),
+                loans,
+                acceptedVault,
+                activityLogs
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `respaldo_banco_regio_${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            logActivity('Respaldo Exportado', 'Se descargó copia de seguridad completa en JSON.', 'RESPALDO');
+            showToast('Respaldo JSON descargado correctamente.', 'success');
+        }
+
+        function importFullBackupJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!Array.isArray(data.loans)) {
+                        showToast('El archivo JSON no tiene un formato válido de Banco Regío.', 'error');
+                        return;
+                    }
+                    loans = data.loans.map(normalizeLoanObject);
+                    if (Array.isArray(data.activityLogs)) activityLogs = data.activityLogs;
+                    syncAcceptedVault(true);
+                    logActivity('Respaldo Restaurado', `Se importaron ${loans.length} registros desde archivo JSON.`, 'RESPALDO');
+                    refreshActiveViews();
+                    closeBackupModal();
+                    showToast(`Respaldo restaurado (${loans.length} expedientes sincronizados).`, 'success');
+                } catch (err) {
+                    showToast('Error al leer el archivo JSON seleccionado.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // --- BITÁCORA MODAL ---
+        function openActivityLogModal() {
+            const list = document.getElementById('activity-log-list');
+            if (activityLogs.length === 0) {
+                list.innerHTML = '<p class="text-slate-500 text-center py-8">No hay eventos registrados en la bitácora.</p>';
+            } else {
+                list.innerHTML = activityLogs.map(log => `
+                    <div class="p-3 rounded-xl bg-regio-950 border border-slate-800 flex items-start justify-between gap-3">
+                        <div>
+                            <span class="font-bold text-white">${escapeHtml(log.action)}</span>
+                            <span class="text-slate-400 block mt-0.5">${escapeHtml(log.detail)}</span>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <span class="px-2 py-0.5 rounded bg-regio-blue/20 text-regio-sky text-[10px] font-bold">${escapeHtml(log.badge)}</span>
+                            <span class="block text-[10px] text-slate-500 font-mono mt-1">${escapeHtml(log.timestamp)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('activity-log-modal').classList.remove('hidden');
+        }
+
+        function closeActivityLogModal() {
+            document.getElementById('activity-log-modal').classList.add('hidden');
+        }
+
+        function clearActivityLog() {
+            activityLogs = [];
+            localStorage.setItem(STORAGE_LOGS_KEY, JSON.stringify([]));
+            openActivityLogModal();
+            showToast('Bitácora de auditoría limpiada.', 'info');
+        }
+
+        // --- DATOS DE DEMOSTRACIÓN ---
+        function seedDemoData() {
+            const demos = [
+                normalizeLoanObject({
+                    id: 'REG-2401',
+                    createdAt: '10/11/2026 18:30',
+                    approvedAt: '10/11/2026 18:45',
+                    icName: 'Carlos Treviño',
+                    icId: '#1024',
+                    icOccupation: 'Dueño Taller San Pedro',
+                    discordTag: 'trevino_mty',
+                    collateral: 'Factura Nissan GT-R R35 (Placas: NLE-777)',
+                    reason: 'Ampliación de bahías de reparación y compra de refacciones.',
+                    amount: 450000,
+                    weeks: 6,
+                    weeksPaid: 2,
+                    status: 'active',
+                    paymentHistory: [
+                        { number: 1, date: '11/11/2026 19:00', amount: 82125, remainingAfter: 410625 },
+                        { number: 2, date: '12/11/2026 14:15', amount: 82125, remainingAfter: 328500 }
+                    ],
+                    remainingBalance: 328500
+                }),
+                normalizeLoanObject({
+                    id: 'REG-2408',
+                    createdAt: '11/11/2026 21:10',
+                    approvedAt: null,
+                    icName: 'Sofía Villarreal',
+                    icId: '#2189',
+                    icOccupation: 'Directora Clínica Médica',
+                    discordTag: 'sofia_medrp',
+                    collateral: 'Escritura Local Comercial Valle Oriente',
+                    reason: 'Adquisición de ambulancias y equipo quirúrgico privado.',
+                    amount: 1200000,
+                    weeks: 8,
+                    weeksPaid: 0,
+                    status: 'pending'
+                }),
+                normalizeLoanObject({
+                    id: 'REG-2395',
+                    createdAt: '02/11/2026 16:00',
+                    approvedAt: '02/11/2026 16:12',
+                    icName: 'Héctor Montemayor',
+                    icId: '#0891',
+                    icOccupation: 'Transportes del Norte',
+                    discordTag: 'hector_cargo',
+                    collateral: 'Factura Tractocamión Kenworth T680',
+                    reason: 'Capital operativo para rutas de carga pesada.',
+                    amount: 250000,
+                    weeks: 4,
+                    weeksPaid: 4,
+                    remainingBalance: 0,
+                    status: 'paid',
+                    paymentHistory: [
+                        { number: 1, date: '09/11/2026 17:00', amount: 266250, remainingAfter: 0, note: 'Liquidación total anticipada' }
+                    ]
+                })
+            ];
+
+            demos.forEach(d => {
+                if (!loans.some(l => l.id === d.id)) {
+                    loans.unshift(d);
+                }
+            });
+
+            syncAcceptedVault(true);
+            logActivity('Datos Demo Cargados', 'Se cargaron expedientes de prueba en Pesos Mexicanos (MXN).', 'SISTEMA');
+            refreshActiveViews();
+            showToast('Expedientes de demostración cargados correctamente.', 'success');
+        }
+
+        // --- NOTIFICACIONES TOAST ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const colors = {
+                success: 'bg-regio-900 border-emerald-500/60 text-emerald-300',
+                error: 'bg-regio-900 border-red-500/60 text-red-300',
+                info: 'bg-regio-900 border-regio-sky/60 text-regio-sky'
+            };
+            const icons = {
+                success: 'fa-circle-check text-emerald-400',
+                error: 'fa-circle-exclamation text-red-400',
+                info: 'fa-circle-info text-regio-sky'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto glass-card rounded-xl p-3.5 border ${colors[type] || colors.info} shadow-xl flex items-center gap-3 text-xs font-semibold animate-entry`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.info} text-base shrink-0"></i>
+                <span class="flex-1 text-slate-100">${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(6px)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 260);
+            }, 3400);
+        }
+
+        // --- INICIALIZACIÓN Y ATAJOS DE TECLADO ---
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAllStorage();
+            updateCalculator();
+
+            document.getElementById('loan-amount').addEventListener('input', updateCalculator);
+            document.getElementById('loan-weeks').addEventListener('input', updateCalculator);
+            document.getElementById('loan-application-form').addEventListener('submit', handleLoanSubmit);
+
+            // Cerrar modales con tecla Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeVaultAuthModal();
+                    closeChangeVaultPasswordModal();
+                    closeAmortizationModal();
+                    closeLoanDetailModal();
+                    closeDiscordModal();
+                    closeActivityLogModal();
+                    closeBackupModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
